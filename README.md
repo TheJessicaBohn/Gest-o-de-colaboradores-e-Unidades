@@ -4,6 +4,9 @@ Sistema de Gestão de colaboradores e Unidades em C# em MySQL
 ## Modelo:
 - MVC
 - Pattern de herança.
+    - Classe Colaboradores;
+    - Classe Usuarios;
+    - Classe Unidades;
 
 ## Funcionalidades:
 - [] Cadastro de usuário: Os usuários dem ser criados com um código único, login, senha e status;
