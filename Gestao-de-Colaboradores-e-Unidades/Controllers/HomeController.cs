@@ -5,17 +5,15 @@ using Gestao_de_Colaboradores_e_Unidades.Models;
 namespace Gestao_de_Colaboradores_e_Unidades.Controllers;
 
 public class HomeController : Controller
-{
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
-
+{ 
     public IActionResult Index()
     {
-        return View();
+        HomeModel home = new HomeModel();
+
+        home.Nome = "Jéssica Bohn";
+        home.Email = "jessicabohn74@gmail.com";
+
+        return View(home);
     }
 
     public IActionResult Privacy()
