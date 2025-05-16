@@ -1,3 +1,6 @@
+using Gestao_de_Colaboradores_e_Unidades.Context;
+using Microsoft.EntityFrameworkCore;
+
 namespace Gestao_de_Colaboradores_e_Unidades;
 public class Startup
 {
@@ -11,6 +14,11 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
+                new MySqlServerVersion(new Version(9, 0, 0))
+            ));
+
         services.AddControllersWithViews();
     }
 
