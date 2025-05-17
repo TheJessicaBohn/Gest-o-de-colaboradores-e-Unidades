@@ -1,11 +1,26 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Gestao_de_Colaboradores_e_Unidades.Models;
 
-    public class UsuariosModel
-    {
+[Table("Usuarios")]
+public class UsuariosModel
+{
+    [Key]
+    public string? UsuarioId { get; set; }
 
-        public string? UsuarioId { get; set; }
-        public string? UsuarioNome { get; set; }
-        public string? UsuarioEmail { get; set; }
-        public string? UsuarioSenha { get; set; }
-        public bool UsuarioStatus { get; set; }
-    }
+    [Required(ErrorMessage ="O nome de usuário é obrigatório")]
+    [Display(Name = "Nome do Usuário")]
+    [StringLength(100, ErrorMessage = "O tamanho máximo é 100 caracteres")]
+    public string UsuarioNome { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "O e-mail é obrigatório")]
+    [StringLength(50, ErrorMessage = "O tamanho máximo é 50 caracteres")]
+    public string UsuarioEmail { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "A senha é obrigatória")]
+    [MinLength(8, ErrorMessage = "O tamanho mínimo da senha é 8 caracteres")]
+    [MaxLength(50, ErrorMessage = "O tamanho máximo é 50 caracteres")]
+    public string UsuarioSenha { get; set; } = string.Empty;
+    public bool UsuarioStatus { get; set; }
+}
