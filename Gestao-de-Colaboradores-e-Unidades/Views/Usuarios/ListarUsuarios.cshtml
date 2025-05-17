@@ -1,4 +1,4 @@
-@model IEnumerable<Gestao_de_Colaboradores_e_Unidades.Models.UsuariosModel>
+@model IEnumerable<UsuariosModel>
 @{
     ViewData["Title"] = "Usuários";
 }
@@ -15,12 +15,13 @@
       <th scope="col">
         Usuário
       </th>
-      <th scope="col">/th>
+      <th scope="col">
         Login/e-mail
       </th>
       <th scope="col">
         Status
       </th>
+      <th scope="col">Ações</th>
     </tr>
   </thead>
   <tbody>
@@ -28,18 +29,18 @@
 {
   <tr>
       <td scope="col">
-        @Html.DisplayNameFor(modelUsuario => usuario.UsuarioNome)
+        @Html.DisplayFor(modelUsuario => usuario.UsuarioNome)
       </td>
       <td scope="col">
-        @Html.DisplayNameFor(modelUsuario => usuario.UsuarioEmail)
+        @Html.DisplayFor(modelUsuario => usuario.UsuarioEmail)
       </td>
       <td scope="col">
-        @Html.DisplayNameFor(modelUsuario => usuario.UsuarioStatus)
+        @Html.DisplayFor(modelUsuario => usuario.UsuarioStatus)
       </td>
       <td scope="col">
         <a asp-action="Edit" asp-route-id="@usuario.UsuarioId">Editar</a>
-        <a asp-action="Edit" asp-route-id="@usuario.UsuarioId">Visualizar</a>
-        <a asp-action="Edit" asp-route-id="@usuario.UsuarioId">Excluir</a>      
+        <a asp-action="Details" asp-route-id="@usuario.UsuarioId">Visualizar</a>
+        <a asp-action="Delete" asp-route-id="@usuario.UsuarioId">Excluir</a>      
       </td>
     </tr>
 }

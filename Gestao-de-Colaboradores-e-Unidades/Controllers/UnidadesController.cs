@@ -5,18 +5,18 @@ namespace Gestao_de_Colaboradores_e_Unidades.Controllers;
 
 public class UnidadesController : Controller
 {
-    private readonly IUnidadesRepository _usuarioRepository;
+    private readonly IUnidadesRepository _unidadesRepository;
 
-    public UnidadesController(IUsuariosRepository unidadesRepository)
+    public UnidadesController(IUnidadesRepository unidadesRepository)
     {
-        _usuarioRepository = unidadesRepository;
+        _unidadesRepository = unidadesRepository;
     }
 
     public IActionResult ListarUnidades()
     {
-        var listaDeUnidades = _usuarioRepository.Unidades;
+        var listarUnidades = _unidadesRepository.Unidades;
 
-        return View(listaDeUnidades);
+        return View(listarUnidades);
     }
 }
     

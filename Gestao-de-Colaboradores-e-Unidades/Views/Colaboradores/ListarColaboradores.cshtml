@@ -1,4 +1,4 @@
-@model IEnumerable<Gestao_de_Colaboradores_e_Unidades.Models.ColaboradoresModel>
+@model IEnumerable<ColaboradoresModel>
 @{
     ViewData["Title"] = "Colaboradores";
 }
@@ -9,33 +9,36 @@
   <a asp-action="Create"> Criar novo Colaborador </a>
 </p>
 
-<table class="table">
-  <thead>
+<div class="container">
+    <table class="table">
+    <thead>
+        <tr>
+        <th scope="col">
+            Colaborador
+        </th>
+        <th scope="col">
+            Unidade pertencente
+        </th>
+        <th scope="col">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var colaborador in Model) 
+    {
     <tr>
-      <th scope="col">
-        Colaborador
-      </th>
-      <th scope="col">/th>
-        Unidade pertencente
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-@foreach (var colaborador in Model) 
-{
-  <tr>
-      <td scope="col">
-        @Html.DisplayNameFor(modelUsuario => colaborador.ColaboradorNome)
-      </td>
-      <td scope="col">
-        @Html.DisplayNameFor(modelUsuario => colaborador.Unidades)
-      </td>
-      <td scope="col">
-        <a asp-action="Edit" asp-route-id="@colaborador.ColaboradorId">Editar</a>
-        <a asp-action="Edit" asp-route-id="@colaborador.ColaboradorId">Visualizar</a>
-        <a asp-action="Edit" asp-route-id="@colaborador.ColaboradorId">Excluir</a>      
-      </td>
-    </tr>
-}
-  </tbody>
-</table>
+        <td scope="col">
+            @Html.DisplayFor(modelUsuario => colaborador.ColaboradorNome)
+        </td>
+        <td scope="col">
+            @Html.DisplayFor(modelUsuario => colaborador.Unidade)
+        </td>
+        <td scope="col">
+            <a asp-action="Edit" asp-route-id="@colaborador.ColaboradorId">Editar</a> 
+            <a asp-action="Details" asp-route-id="@colaborador.ColaboradorId">Visualizar</a>
+            <a asp-action="Delete" asp-route-id="@colaborador.ColaboradorId">Excluir</a> 
+        </td>
+        </tr>
+    }
+    </tbody>
+    </table>
+</div>
