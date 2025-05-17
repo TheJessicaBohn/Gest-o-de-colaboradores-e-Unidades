@@ -16,6 +16,7 @@ public class UsuariosModel
 
     [Required(ErrorMessage = "O e-mail é obrigatório")]
     [StringLength(50, ErrorMessage = "O tamanho máximo é 50 caracteres")]
+    [EmailAddress(ErrorMessage = "Formato de e-mail inválido.")]
     public string UsuarioEmail { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "A senha é obrigatória")]

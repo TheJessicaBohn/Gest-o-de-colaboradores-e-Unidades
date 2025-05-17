@@ -12,7 +12,14 @@ public class UnidadesRepository : IUnidadesRepository
         _context = context;
     }
 
-    public IEnumerable<UnidadesModel> Unidades => throw new NotImplementedException();
+    public IEnumerable<UnidadesModel> Unidades => _context.Unidades;
+
+    public void CriarUnidade(UnidadesModel unidade)
+    {
+        _context.Unidades.Add(unidade);
+        _context.SaveChanges();
+    }
+
     public UnidadesModel GetUnidadesById(string id)
     {
         var unidade = _context.Unidades.FirstOrDefault(u => u.UnidadeId == id);

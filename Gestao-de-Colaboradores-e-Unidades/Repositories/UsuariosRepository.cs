@@ -12,10 +12,15 @@ public class UsuariosRepository : IUsuariosRepository
         _context = context;
     }
 
-    public IEnumerable<UsuariosModel> Usuarios => throw new NotImplementedException();
+    public IEnumerable<UsuariosModel> Usuarios => _context.Usuarios;
     public IEnumerable<UsuariosModel> UsuariosAtivos => _context.Usuarios.
                                                         Where(u => u.UsuarioStatus);
 
+    public void CriarUsuario(UsuariosModel usuario)
+    {
+        _context.Usuarios.Add(usuario);
+        _context.SaveChanges();
+    }
 
     public UsuariosModel GetUsuarioById(string id)
     {

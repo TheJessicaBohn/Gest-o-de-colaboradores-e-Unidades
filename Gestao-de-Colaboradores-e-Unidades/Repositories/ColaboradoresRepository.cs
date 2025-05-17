@@ -13,7 +13,13 @@ public class ColaboradoresRepository : IColaboradoresRepository
         _context = context;
     }
 
-    public IEnumerable<ColaboradoresModel> Colaboradores => _context.Colaboradores.Include(u => u.Unidades);
+    public IEnumerable<ColaboradoresModel> Colaboradores => _context.Colaboradores.Include(u => u.Unidade);
+
+    public void CriarColaborador(ColaboradoresModel colaborador)
+    {
+        _context.Colaboradores.Add(colaborador);
+        _context.SaveChanges();
+    }
 
     public ColaboradoresModel GetColaboradoresById(string id)
     {
