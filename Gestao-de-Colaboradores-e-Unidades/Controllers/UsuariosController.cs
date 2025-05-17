@@ -1,4 +1,3 @@
-using Gestao_de_Colaboradores_e_Unidades.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gestao_de_Colaboradores_e_Unidades.Controllers;

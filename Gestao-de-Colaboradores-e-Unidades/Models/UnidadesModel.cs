@@ -9,7 +9,7 @@ namespace Gestao_de_Colaboradores_e_Unidades.Models;
 public class UnidadesModel
 {
     [Key]
-    public string? UnidadeId { get; set; }
+    public string UnidadeId { get; set; }  = string.Empty;
 
     [Required(ErrorMessage = "O código é obrigatório")]
     [StringLength(20, ErrorMessage = "O tamanho máximo é 20 caracteres")]

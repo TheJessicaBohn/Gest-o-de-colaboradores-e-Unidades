@@ -7,7 +7,7 @@ namespace Gestao_de_Colaboradores_e_Unidades.Models;
 public class ColaboradoresModel
 {
     [Key]
-    public string? ColaboradorId { get; set; }
+    public string ColaboradorId { get; set; } = string.Empty;
 
     [Required(ErrorMessage ="O nome do colaborador é obrigatório")]
     [Display(Name = "Nome do Colaborador")]
@@ -15,7 +15,7 @@ public class ColaboradoresModel
     public string ColaboradorNome { get; set; } = string.Empty;
 
     [ForeignKey("Unidades")]
-    [Required(ErrorMessage = "O colaborador deve ser vinculado a uma unidade!")]
+    [Required(ErrorMessage = "O colaborador deve ser vinculado à uma unidade!")]
     public string? UnidadeId { get; set; }
 
     [NotMapped]

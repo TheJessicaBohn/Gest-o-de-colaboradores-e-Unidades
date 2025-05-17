@@ -13,5 +13,19 @@ public class AppDbContext : DbContext
     public DbSet<UnidadesModel> Unidades { get; set; }
     public DbSet<UsuariosModel> Usuarios { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
 
+        modelBuilder.Entity<ColaboradoresModel>()
+            .Property(c => c.ColaboradorId)
+            .IsRequired();
+        
+        modelBuilder.Entity<UnidadesModel>()
+            .Property(u => u.UnidadeId)
+            .IsRequired();
+
+        modelBuilder.Entity<UsuariosModel>()
+            .Property(c => c.UsuarioId)
+            .IsRequired();
+    }
 }

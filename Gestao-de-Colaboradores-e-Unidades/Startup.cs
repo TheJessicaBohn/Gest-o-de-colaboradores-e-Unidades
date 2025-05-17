@@ -1,4 +1,6 @@
 using Gestao_de_Colaboradores_e_Unidades.Context;
+using Gestao_de_Colaboradores_e_Unidades.Repositories.Interfaces;
+using Gestao_de_Colaboradores_e_Unidades.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Gestao_de_Colaboradores_e_Unidades;
@@ -18,6 +20,10 @@ public class Startup
             options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
                 new MySqlServerVersion(new Version(9, 0, 0))
             ));
+
+        services.AddTransient<IColaboradoresRepository, ColaboradoresRepository>();
+        services.AddTransient<IUnidadesRepository, UnidadesRepository>();
+        services.AddTransient<IUsuariosRepository, UsuariosRepository>();
 
         services.AddControllersWithViews();
     }

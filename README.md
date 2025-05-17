@@ -24,3 +24,4 @@ Sistema de Gestão de colaboradores e Unidades em C# em MySQL
 - ```dotnet ef migrations list``` - Listar migrations
 - ```dotnet ef migrations remove``` - Remover migration (não aplicada)
 - ```dotnet ef database update NomeDaMigrationAnterior``` - Reverter migration (aplicada)
+- ```dotnet ef database update``` - Aplicar migration
