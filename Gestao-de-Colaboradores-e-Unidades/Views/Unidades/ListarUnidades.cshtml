@@ -1,0 +1,41 @@
+@model IEnumerable<Gestao_de_Colaboradores_e_Unidades.Models.UnidadesModel>
+@{
+    ViewData["Title"] = "Unidades";
+}
+
+<h1 class="display-4">Listagem de Unidades</h1>
+
+<p>
+  <a asp-action="Create"> Criar novo Unidade </a>
+</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">
+        Nome da Unidade
+      </th>
+      <th scope="col">/th>
+        Colaboradores inscritos
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+@foreach (var unidade in Model) 
+{
+  <tr>
+      <td scope="col">
+        @Html.DisplayNameFor(modelUnidade => unidade.UnidadeNome)
+      </td>
+      <td scope="col">
+        @Html.DisplayNameFor(modelUnidade => unidade.Colaboradores)
+      </td>
+      <td scope="col">
+        <a asp-action="Edit" asp-route-id="@unidade.UnidadeId">Editar</a>
+        <a asp-action="Edit" asp-route-id="@unidade.UnidadeId">Visualizar</a>
+        <a asp-action="Edit" asp-route-id="@unidade.UnidadeId">Excluir</a>      
+      </td>
+    </tr>
+}
+  </tbody>
+</table>

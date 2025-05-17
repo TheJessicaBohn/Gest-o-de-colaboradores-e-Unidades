@@ -1,0 +1,47 @@
+@model IEnumerable<Gestao_de_Colaboradores_e_Unidades.Models.UsuariosModel>
+@{
+    ViewData["Title"] = "Usuários";
+}
+
+<h1 class="display-4">Listagem de Usuários</h1>
+
+<p>
+  <a asp-action="Create"> Criar novo Usuário </a>
+</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">
+        Usuário
+      </th>
+      <th scope="col">/th>
+        Login/e-mail
+      </th>
+      <th scope="col">
+        Status
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+@foreach (var usuario in Model) 
+{
+  <tr>
+      <td scope="col">
+        @Html.DisplayNameFor(modelUsuario => usuario.UsuarioNome)
+      </td>
+      <td scope="col">
+        @Html.DisplayNameFor(modelUsuario => usuario.UsuarioEmail)
+      </td>
+      <td scope="col">
+        @Html.DisplayNameFor(modelUsuario => usuario.UsuarioStatus)
+      </td>
+      <td scope="col">
+        <a asp-action="Edit" asp-route-id="@usuario.UsuarioId">Editar</a>
+        <a asp-action="Edit" asp-route-id="@usuario.UsuarioId">Visualizar</a>
+        <a asp-action="Edit" asp-route-id="@usuario.UsuarioId">Excluir</a>      
+      </td>
+    </tr>
+}
+  </tbody>
+</table>
