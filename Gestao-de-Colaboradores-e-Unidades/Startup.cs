@@ -1,9 +1,16 @@
+using System.Text;
 using Gestao_de_Colaboradores_e_Unidades.Context;
 using Gestao_de_Colaboradores_e_Unidades.Repositories.Interfaces;
 using Gestao_de_Colaboradores_e_Unidades.Repository;
+using Gestao_de_Colaboradores_e_Unidades.Services;
+using Gestao_de_Colaboradores_e_Unidades.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+
 
 namespace Gestao_de_Colaboradores_e_Unidades;
+
 public class Startup
 {
     public Startup(IConfiguration configuration)
@@ -26,9 +33,46 @@ public class Startup
         services.AddTransient<IUsuariosRepository, UsuariosRepository>();
 
         services.AddControllersWithViews();
+
+        var jwtSettingsSection = Configuration.GetSection("JwtSettings");
+        services.Configure<JwtSettings>(jwtSettingsSection);
+
+        var jwtSettings = jwtSettingsSection.Get<JwtSettings>();
+
+        if (jwtSettings == null)
+        {
+            throw new InvalidOperationException("JwtSettings configuration is missing");
+        }
+
+        var key = Encoding.ASCII.GetBytes(jwtSettings.SecretKey);
+
+        services.AddSingleton(jwtSettings);
+
+        services.AddAuthentication(x =>
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(x =>
+        {
+            x.RequireHttpsMetadata = false;
+            x.SaveToken = true;
+            x.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidIssuer = jwtSettings.Issuer,
+                ValidAudience = jwtSettings.Audience
+            };
+        });
+
+        services.AddControllers();
+        services.AddSwaggerGen();
+        services.AddScoped<TokenService>();
     }
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
