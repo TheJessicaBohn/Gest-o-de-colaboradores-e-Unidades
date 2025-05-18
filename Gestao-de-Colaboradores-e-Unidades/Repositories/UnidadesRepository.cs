@@ -20,11 +20,28 @@ public class UnidadesRepository : IUnidadesRepository
         _context.SaveChanges();
     }
 
-    public UnidadesModel GetUnidadesById(string id)
+    public UnidadesModel BuscaUnidadesPorId(int id)
     {
         var unidade = _context.Unidades.FirstOrDefault(u => u.UnidadeId == id);
         if (unidade == null) throw new Exception("Unidade não encontada");
 
         return unidade;
+    }
+
+     public void AtualizarUnidade(UnidadesModel unidade)
+    {
+        var existente = BuscaUnidadesPorId(unidade.UnidadeId);
+        if (existente == null) return;
+
+        existente.UnidadeNome = unidade.UnidadeNome;
+        existente.UnidadeCodigo = unidade.UnidadeCodigo;
+        existente.EstaUnidadeAtiva = unidade.EstaUnidadeAtiva;
+    }
+
+    public void InativarUnidade(int id)
+    {
+        var unidade = BuscaUnidadesPorId(id);
+        if (unidade != null)
+            unidade.EstaUnidadeAtiva = false;
     }
 }

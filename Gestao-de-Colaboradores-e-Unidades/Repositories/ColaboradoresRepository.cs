@@ -21,11 +21,32 @@ public class ColaboradoresRepository : IColaboradoresRepository
         _context.SaveChanges();
     }
 
-    public ColaboradoresModel GetColaboradoresById(string id)
+
+    public void AtualizarColaborador(ColaboradoresModel colaborador)
+    {
+        var colaboradorExistente = _context.Colaboradores.FirstOrDefault(c => c.ColaboradorId == colaborador.ColaboradorId);
+
+        if (colaboradorExistente == null)
+            throw new Exception("Colaborador não encontrado.");
+
+        _context.SaveChanges();
+    }
+
+    public ColaboradoresModel BuscaColaboradorPorId(string id)
     {
         var colaborador = _context.Colaboradores.FirstOrDefault(u => u.UnidadeId == id);
         if (colaborador == null) throw new Exception("Colaborador não encontado");
 
         return colaborador;
+    }
+
+    public void RemoverColaborador(string id)
+    {
+        var colaborador = _context.Colaboradores.FirstOrDefault(c => c.ColaboradorId == id);
+        if (colaborador != null)
+        {
+            _context.Colaboradores.Remove(colaborador);
+            _context.SaveChanges();
+        }
     }
 }

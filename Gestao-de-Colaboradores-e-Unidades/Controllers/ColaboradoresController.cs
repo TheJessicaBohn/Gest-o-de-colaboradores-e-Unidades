@@ -2,48 +2,92 @@ using Gestao_de_Colaboradores_e_Unidades.Models;
 using Gestao_de_Colaboradores_e_Unidades.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gestao_de_Colaboradores_e_Unidades.Controllers;
-
-public class ColaboradoresController : Controller
+namespace Gestao_de_Colaboradores_e_Unidades.Controllers
 {
-    private readonly IColaboradoresRepository _colaboradorRepository;
-
-    public ColaboradoresController(IColaboradoresRepository colaboradoresRepository)
+    public class ColaboradoresController : Controller
     {
-        _colaboradorRepository = colaboradoresRepository;
-    }
+        private readonly IColaboradoresRepository _colaboradorRepository;
+        private readonly IUnidadesRepository _unidadesRepository;
 
-    [HttpGet]
-    public IActionResult ListarColaboradores()
-    {
-        var listarColaboradores = _colaboradorRepository.Colaboradores;
-
-        return View(listarColaboradores);
-    }
-
-    [HttpGet]
-    public IActionResult Colaborador()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    public IActionResult CriarColaborador(ColaboradoresModel colaborador)
-    {
-
-        if (colaborador == null)
+        public ColaboradoresController(IColaboradoresRepository colaboradoresRepository, IUnidadesRepository unidadesRepository)
         {
-            ModelState.AddModelError("", "Você precisa preenchar os dados do colabrador");
+            _colaboradorRepository = colaboradoresRepository;
+            _unidadesRepository = unidadesRepository;
         }
 
-        if (ModelState.IsValid && colaborador != null)
+        [HttpGet]
+        public IActionResult ListarColaboradores()
         {
-            _colaboradorRepository.CriarColaborador(colaborador);
+            var colaboradores = _colaboradorRepository.Colaboradores;
+            return View(colaboradores);
         }
 
-        ViewBag.ColaboradorCriadoComSucesso = "Colaborador criado com sucesso";
+        [HttpGet]
+        public IActionResult Colaborador()
+        {
+            ViewBag.Unidades = _unidadesRepository.Unidades;
+            return View();
+        }
 
-        return View("Index.cshtml");
+        [HttpPost]
+        public IActionResult CriarColaborador(ColaboradoresModel colaborador)
+        {
+            if (colaborador == null)
+            {
+                ModelState.AddModelError("", "Preencha os dados do colaborador.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                _colaboradorRepository.CriarColaborador(colaborador);
+                TempData["MensagemSucesso"] = "Colaborador criado com sucesso!";
+                return RedirectToAction("ListarColaboradores");
+            }
+
+            ViewBag.Unidades = _unidadesRepository.Unidades;
+            return View("Colaborador", colaborador);
+        }
+
+        [HttpGet]
+        public IActionResult Editar(string id)
+        {
+            var colaborador = _colaboradorRepository.BuscaColaboradorPorId(id);
+            if (colaborador == null) return NotFound();
+
+            ViewBag.Unidades = _unidadesRepository.Unidades;
+            return View(colaborador);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(ColaboradoresModel colaborador)
+        {
+            if (ModelState.IsValid)
+            {
+                _colaboradorRepository.AtualizarColaborador(colaborador);
+                TempData["MensagemSucesso"] = "Colaborador atualizado com sucesso!";
+                return RedirectToAction("ListarColaboradores");
+            }
+
+            ViewBag.Unidades = _unidadesRepository.Unidades;
+            return View(colaborador);
+        }
+
+        // Deletar
+        [HttpGet]
+        public IActionResult Deletar(string id)
+        {
+            var colaborador = _colaboradorRepository.BuscaColaboradorPorId(id);
+            if (colaborador == null) return NotFound();
+
+            return View(colaborador);
+        }
+
+        [HttpPost]
+        public IActionResult ConfirmarDeletar(string id)
+        {
+            _colaboradorRepository.RemoverColaborador(id);
+            TempData["MensagemSucesso"] = "Colaborador removido com sucesso!";
+            return RedirectToAction("ListarColaboradores");
+        }
     }
 }
-    
