@@ -12,11 +12,18 @@ public class UsuariosController : Controller
         _usuarioRepository = usuariosRepository;
     }
 
+    [HttpGet]
     public IActionResult ListarUsuarios()
     {
         var listaDeUsuarios = _usuarioRepository.Usuarios;
 
         return View(listaDeUsuarios);
+    }
+
+    [HttpGet]
+    public IActionResult Usuarios()
+    {
+        return View();
     }
 }
     

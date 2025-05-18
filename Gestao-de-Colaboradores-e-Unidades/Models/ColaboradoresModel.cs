@@ -9,16 +9,13 @@ public class ColaboradoresModel
     [Key]
     public string ColaboradorId { get; set; } = string.Empty;
 
-    [Required(ErrorMessage ="O nome do colaborador é obrigatório")]
+    [Required(ErrorMessage = "O nome do colaborador é obrigatório")]
     [Display(Name = "Nome do Colaborador")]
     [StringLength(100, ErrorMessage = "O tamanho máximo é 100 caracteres")]
     public string ColaboradorNome { get; set; } = string.Empty;
+    public virtual UnidadesModel Unidade { get; set; } = new UnidadesModel();
 
-    [ForeignKey("Unidades")]
     [Required(ErrorMessage = "O colaborador deve ser vinculado à uma unidade!")]
-    public string? UnidadeId { get; set; }
-
-    [NotMapped]
-    public virtual UnidadesModel Unidades { get; set; } = new();
-
+    [ForeignKey("UnidadeId")]
+    public required string UnidadeId { get; set; } = string.Empty;
 }
