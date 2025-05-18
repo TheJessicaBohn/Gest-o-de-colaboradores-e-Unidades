@@ -40,7 +40,7 @@ public class UsuariosController : Controller
     }
 
     [HttpGet]
-    public IActionResult AbrirFormularioDeEditar(string id)
+    public IActionResult AbrirFormularioDeEditar(Guid id)
     {
         var usuario = _usuarioRepository.BuscaUsuarioPorId(id);
 
@@ -51,7 +51,7 @@ public class UsuariosController : Controller
 
 
     [HttpPost]
-    public IActionResult Editar(string id, [Bind("UsuarioId,UsuarioSenha,UsuarioStatus")] UsuariosModel usuarioAtualizado)
+    public IActionResult Editar(Guid id, [Bind("UsuarioId,UsuarioSenha,UsuarioStatus")] UsuariosModel usuarioAtualizado)
     {
         if (ModelState.IsValid)
         {

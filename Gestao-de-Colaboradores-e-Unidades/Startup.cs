@@ -1,5 +1,6 @@
 using System.Text;
 using Gestao_de_Colaboradores_e_Unidades.Context;
+using Gestao_de_Colaboradores_e_Unidades.Repositories;
 using Gestao_de_Colaboradores_e_Unidades.Repositories.Interfaces;
 using Gestao_de_Colaboradores_e_Unidades.Repository;
 using Gestao_de_Colaboradores_e_Unidades.Services;
@@ -31,6 +32,8 @@ public class Startup
         services.AddTransient<IColaboradoresRepository, ColaboradoresRepository>();
         services.AddTransient<IUnidadesRepository, UnidadesRepository>();
         services.AddTransient<IUsuariosRepository, UsuariosRepository>();
+
+        services.AddScoped<ILoginRepository, LoginRepository>();
 
         services.AddControllersWithViews();
 

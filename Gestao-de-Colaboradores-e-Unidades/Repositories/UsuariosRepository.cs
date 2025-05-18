@@ -35,7 +35,7 @@ public class UsuariosRepository : IUsuariosRepository
         _context.SaveChanges();
     }
 
-    public UsuariosModel BuscaUsuarioPorId(string id)
+    public UsuariosModel BuscaUsuarioPorId(Guid id)
     {
         var usuario = _context.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
         if (usuario == null) throw new Exception("Usuario não encontado");

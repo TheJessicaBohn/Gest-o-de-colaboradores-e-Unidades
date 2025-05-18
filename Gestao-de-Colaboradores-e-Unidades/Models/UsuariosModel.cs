@@ -7,7 +7,7 @@ namespace Gestao_de_Colaboradores_e_Unidades.Models;
 public class UsuariosModel
 {
     [Key]
-    public string UsuarioId { get; set; } = string.Empty;
+    public Guid UsuarioId { get; set; }
 
     [Required(ErrorMessage ="O nome de usuário é obrigatório")]
     [Display(Name = "Nome do Usuário")]

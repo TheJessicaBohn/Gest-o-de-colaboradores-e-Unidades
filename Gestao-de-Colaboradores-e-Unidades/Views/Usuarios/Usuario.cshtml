@@ -1,7 +1,7 @@
 @model UsuariosModel
 
 @{
-    var isEditando = !string.IsNullOrEmpty(Model.UsuarioId);
+    var isEditando = Model.UsuarioId != Guid.Empty;
     var titulo = isEditando ? "Editar Usuário" : "Cadastrar Usuário";
     var action = isEditando ? "Editar" : "Cadastrar";
 }
