@@ -1,45 +1,46 @@
+@model UsuariosModel
+
 @{
-    ViewData["Title"] = "Criar/Editar/Visualizar Usuário";
+    var isEditando = !string.IsNullOrEmpty(Model.UsuarioId);
+    var titulo = isEditando ? "Editar Usuário" : "Cadastrar Usuário";
+    var action = isEditando ? "Editar" : "Cadastrar";
 }
 
-<div class="container mt-4">
-    <div class="card shadow">
-        <div class="card-header bg-secondary text-white">
-            <h1 class="h4 mb-0"><i class="bi bi-person-fill-gear me-2"></i>Criar/Editar/Visualizar Usuário</h1>
-        </div>
-        <div class="card-body">
-            <form method="post" class="needs-validation" novalidate>
+<form asp-action="@action" asp-route-id="@Model.UsuarioId" method="post" class="needs-validation" novalidate>
+    <div class="container mt-4">
+        <div class="card shadow">
+            <div class="card-header bg-secondary text-white">
+                <h1 class="h4 mb-0">
+                    <i class="bi bi-person-fill-gear me-2"></i>@titulo
+                </h1>
+            </div>
+            <div class="card-body">
+
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="nomeCompleto" class="form-label fw-bold">Nome completo:</label>
-                        <input type="text" class="form-control" id="nomeCompleto" name="nomeCompleto" required>
-                        <div class="invalid-feedback">
-                            Por favor, informe o nome completo.
-                        </div>
+                        <label asp-for="UsuarioNome" class="form-label fw-bold"></label>
+                        <input asp-for="UsuarioNome" class="form-control" required />
+                        <span asp-validation-for="UsuarioNome" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="e-mail" class="form-label fw-bold">e-mail</label>
-                        <input type="text" class="form-control" id="e-mail" name="e-mail" required>
-                        <div class="invalid-feedback">
-                            Por favor, informe um e-mail.
-                        </div>
+                        <label asp-for="UsuarioEmail" class="form-label fw-bold"></label>
+                        <input asp-for="UsuarioEmail" class="form-control" required />
+                        <span asp-validation-for="UsuarioEmail" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="row mb-4">
                     <div class="col-md-6">
-                        <label for="status" class="form-label fw-bold">Status:</label>
-                        <select class="form-select" id="status" name="status" required>
-                            <option value="" selected disabled>Selecione uma unidade</option>
-                            <option value="1">Ativo</option>
-                            <option value="2">Inativo</option>
+                        <label asp-for="UsuarioStatus" class="form-label fw-bold"></label>
+                        <select asp-for="UsuarioStatus" class="form-select" required>
+                            <option value="">Selecione o status</option>
+                            <option value="true">Ativo</option>
+                            <option value="false">Inativo</option>
                         </select>
-                        <div class="invalid-feedback">
-                            Por favor, selecione um Ativo <output> Inativo</output>.
-                        </div>
+                        <span asp-validation-for="UsuarioStatus" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -53,12 +54,14 @@
                         </a>
                     </div>
                 </div>
-            </form>
+
+            </div>
         </div>
     </div>
-</div>
+</form>
 
 @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script>
         (function () {
             'use strict'

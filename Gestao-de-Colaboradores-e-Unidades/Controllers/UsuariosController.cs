@@ -1,5 +1,6 @@
 using Gestao_de_Colaboradores_e_Unidades.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Gestao_de_Colaboradores_e_Unidades.Models;
 
 namespace Gestao_de_Colaboradores_e_Unidades.Controllers;
 
@@ -13,17 +14,59 @@ public class UsuariosController : Controller
     }
 
     [HttpGet]
-    public IActionResult ListarUsuarios()
+    public IActionResult ListarUsuarios(bool status)
     {
-        var listaDeUsuarios = _usuarioRepository.Usuarios;
-
-        return View(listaDeUsuarios);
+        var usuariosFiltrados = _usuarioRepository.BuscaUsuariosPorStatus(status);
+        return View("ListarUsuarios", usuariosFiltrados);
     }
 
     [HttpGet]
-    public IActionResult Usuarios()
+    public IActionResult AbrirFormularioDeCadastro()
     {
-        return View();
+        return View("Usuario", new UsuariosModel());
+    }
+
+    [HttpPost]
+    public IActionResult Cadastrar(UsuariosModel usuario)
+    {
+        if (ModelState.IsValid)
+        {
+            _usuarioRepository.CriarUsuario(usuario);
+            return RedirectToAction("ListarUsuarios");
+        }
+
+        return View("Usuario", usuario);
+
+    }
+
+    [HttpGet]
+    public IActionResult AbrirFormularioDeEditar(string id)
+    {
+        var usuario = _usuarioRepository.BuscaUsuarioPorId(id);
+
+        if (usuario == null) return NotFound();
+
+        return View("Usuario", usuario);
+    }
+
+
+    [HttpPost]
+    public IActionResult Editar(string id, [Bind("UsuarioId,UsuarioSenha,UsuarioStatus")] UsuariosModel usuarioAtualizado)
+    {
+        if (ModelState.IsValid)
+        {
+            var usuarioExistente = _usuarioRepository.BuscaUsuarioPorId(id);
+
+            if (usuarioExistente == null) return NotFound();
+
+            usuarioExistente.UsuarioSenha = usuarioAtualizado.UsuarioSenha;
+            usuarioExistente.UsuarioStatus = usuarioAtualizado.UsuarioStatus;
+
+            _usuarioRepository.AtualizarUsuario(usuarioExistente);
+
+            return RedirectToAction("ListarUsuarios");
+        }
+
+        return View(usuarioAtualizado);
     }
 }
-    

@@ -22,11 +22,31 @@ public class UsuariosRepository : IUsuariosRepository
         _context.SaveChanges();
     }
 
-    public UsuariosModel GetUsuarioById(string id)
+    public void AtualizarUsuario(UsuariosModel usuario)
+    {
+        var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.UsuarioId == usuario.UsuarioId);
+
+        if (usuarioExistente == null)
+            throw new Exception("Usuário não encontrado.");
+
+        usuarioExistente.UsuarioSenha = usuario.UsuarioSenha;
+        usuarioExistente.UsuarioStatus = usuario.UsuarioStatus;
+
+        _context.SaveChanges();
+    }
+
+    public UsuariosModel BuscaUsuarioPorId(string id)
     {
         var usuario = _context.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
         if (usuario == null) throw new Exception("Usuario não encontado");
 
-        return usuario; 
+        return usuario;
     }
+
+    public IEnumerable<UsuariosModel> BuscaUsuariosPorStatus(bool status)
+    {
+        return _context.Usuarios.Where(u => u.UsuarioStatus == status);
+    }
+
+
 }
