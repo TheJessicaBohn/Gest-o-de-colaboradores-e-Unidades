@@ -7,6 +7,6 @@ public interface IColaboradoresRepository
     void CriarColaborador(ColaboradoresModel colaborador);
     void AtualizarColaborador(ColaboradoresModel colaborador);
     IEnumerable<ColaboradoresModel> Colaboradores { get; }
-    ColaboradoresModel BuscaColaboradorPorId(string colaboradoesId);
-    void RemoverColaborador(string id);
+    ColaboradoresModel BuscaColaboradorPorId(int colaboradoesId);
+    void RemoverColaborador(int id);
 }

@@ -32,7 +32,7 @@ public class ColaboradoresRepository : IColaboradoresRepository
         _context.SaveChanges();
     }
 
-    public ColaboradoresModel BuscaColaboradorPorId(string id)
+    public ColaboradoresModel BuscaColaboradorPorId(int id)
     {
         var colaborador = _context.Colaboradores.FirstOrDefault(u => u.UnidadeId == id);
         if (colaborador == null) throw new Exception("Colaborador não encontado");
@@ -40,7 +40,7 @@ public class ColaboradoresRepository : IColaboradoresRepository
         return colaborador;
     }
 
-    public void RemoverColaborador(string id)
+    public void RemoverColaborador(int id)
     {
         var colaborador = _context.Colaboradores.FirstOrDefault(c => c.ColaboradorId == id);
         if (colaborador != null)

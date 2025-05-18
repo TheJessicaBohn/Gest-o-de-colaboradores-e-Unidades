@@ -30,11 +30,13 @@ namespace Gestao_de_Colaboradores_e_Unidades.Controllers
         }
 
         [HttpPost]
-        public IActionResult CriarColaborador(ColaboradoresModel colaborador)
-        {
+       public IActionResult CriarColaborador(ColaboradoresModel? colaborador)
+       {
             if (colaborador == null)
             {
                 ModelState.AddModelError("", "Preencha os dados do colaborador.");
+                ViewBag.Unidades = _unidadesRepository.Unidades;
+                return View("Colaborador", new ColaboradoresModel { UnidadeId = 0 }); 
             }
 
             if (ModelState.IsValid)
@@ -46,10 +48,10 @@ namespace Gestao_de_Colaboradores_e_Unidades.Controllers
 
             ViewBag.Unidades = _unidadesRepository.Unidades;
             return View("Colaborador", colaborador);
-        }
+       }
 
         [HttpGet]
-        public IActionResult Editar(string id)
+        public IActionResult Editar(int id)
         {
             var colaborador = _colaboradorRepository.BuscaColaboradorPorId(id);
             if (colaborador == null) return NotFound();
@@ -74,7 +76,7 @@ namespace Gestao_de_Colaboradores_e_Unidades.Controllers
 
         // Deletar
         [HttpGet]
-        public IActionResult Deletar(string id)
+        public IActionResult Deletar(int id)
         {
             var colaborador = _colaboradorRepository.BuscaColaboradorPorId(id);
             if (colaborador == null) return NotFound();
@@ -83,7 +85,7 @@ namespace Gestao_de_Colaboradores_e_Unidades.Controllers
         }
 
         [HttpPost]
-        public IActionResult ConfirmarDeletar(string id)
+        public IActionResult ConfirmarDeletar(int id)
         {
             _colaboradorRepository.RemoverColaborador(id);
             TempData["MensagemSucesso"] = "Colaborador removido com sucesso!";
