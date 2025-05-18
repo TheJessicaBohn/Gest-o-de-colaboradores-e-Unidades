@@ -1,0 +1,81 @@
+@{
+    ViewData["Title"] = "Criar/Editar/Visualizar Usuário";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-secondary text-white">
+            <h1 class="h4 mb-0"><i class="bi bi-person-fill-gear me-2"></i>Criar/Editar/Visualizar Usuário</h1>
+        </div>
+        <div class="card-body">
+            <form method="post" class="needs-validation" novalidate>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="nomeCompleto" class="form-label fw-bold">Nome completo:</label>
+                        <input type="text" class="form-control" id="nomeCompleto" name="nomeCompleto" required>
+                        <div class="invalid-feedback">
+                            Por favor, informe o nome completo.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="e-mail" class="form-label fw-bold">e-mail</label>
+                        <input type="text" class="form-control" id="e-mail" name="e-mail" required>
+                        <div class="invalid-feedback">
+                            Por favor, informe um e-mail.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="status" class="form-label fw-bold">Status:</label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="" selected disabled>Selecione uma unidade</option>
+                            <option value="1">Ativo</option>
+                            <option value="2">Inativo</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Por favor, selecione um Ativo <output> Inativo</output>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-success me-2">
+                            <i class="bi bi-check-circle-fill me-1"></i> Salvar
+                        </button>
+                        <a class="btn btn-primary" asp-controller="Home" asp-action="Index">
+                            <i class="bi bi-arrow-left-circle-fill me-1"></i> Voltar
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            'use strict'
+
+            var forms = document.querySelectorAll('.needs-validation')
+
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+}
