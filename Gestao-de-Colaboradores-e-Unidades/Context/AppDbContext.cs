@@ -19,7 +19,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<ColaboradoresModel>()
             .Property(c => c.ColaboradorId)
             .IsRequired();
-        
+
         modelBuilder.Entity<UnidadesModel>()
             .Property(u => u.UnidadeId)
             .IsRequired();
@@ -27,5 +27,16 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<UsuariosModel>()
             .Property(c => c.UsuarioId)
             .IsRequired();
+        
+        var usuarioHostId = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+        
+        modelBuilder.Entity<UsuariosModel>().HasData(new UsuariosModel
+        {
+            UsuarioId = usuarioHostId,
+            UsuarioNome = "Host",
+            UsuarioEmail = "host@host.com",
+            UsuarioSenha = "123qwe",
+            UsuarioStatus = true,
+        });
     }
 }
