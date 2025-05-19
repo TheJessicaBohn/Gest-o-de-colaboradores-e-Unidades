@@ -21,6 +21,7 @@ Sistema de Gestão de colaboradores e Unidades em C# em MySQL
 - [] Listagem de Unidades;
 
 ## Lembretes:
+- ao gerar o banco pela primeira vez, abra o banco e entre com o usuario host;
 - ```dotnet ef migrations list``` - Listar migrations
 - ```dotnet ef migrations remove``` - Remover migration (não aplicada)
 - ```dotnet ef database update NomeDaMigrationAnterior``` - Reverter migration (aplicada)
