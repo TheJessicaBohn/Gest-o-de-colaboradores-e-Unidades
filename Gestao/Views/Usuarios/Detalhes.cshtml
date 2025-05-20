@@ -1,0 +1,40 @@
+@model Gestao.Models.UsuariosModel
+
+@{
+    ViewData["Title"] = "Detalhes do Usuário";
+}
+
+<h1>Detalhes do Usuário</h1>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.UsuarioStatus)
+            </dt>
+            <dd class="col-sm-8">
+                @(Model.UsuarioStatus ? "Ativo" : "Inativo")
+            </dd>
+
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+        </dl>
+
+        <div class="mt-4">
+            <a asp-action="Editar" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Voltar</a>
+        </div>
+    </div>
+</div>

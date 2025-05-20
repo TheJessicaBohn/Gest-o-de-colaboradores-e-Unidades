@@ -1,52 +1,58 @@
 using Gestao.Context;
 using Gestao.Models;
-using Gestao.Repositories.Interfaces;
-
-namespace Gestao.Repository;
+using Microsoft.EntityFrameworkCore;
 
 public class UsuariosRepository : IUsuariosRepository
 {
     private readonly AppDbContext _context;
+
     public UsuariosRepository(AppDbContext context)
     {
         _context = context;
     }
 
     public IEnumerable<UsuariosModel> Usuarios => _context.Usuarios;
-    public IEnumerable<UsuariosModel> UsuariosAtivos => _context.Usuarios.
-                                                        Where(u => u.UsuarioStatus);
+    public IEnumerable<UsuariosModel> UsuariosAtivos => _context.Usuarios.Where(u => u.UsuarioStatus);
 
-    public void CriarUsuario(UsuariosModel usuario)
+    public async Task CriarUsuarioAsync(UsuariosModel usuario)
     {
         _context.Usuarios.Add(usuario);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
-    public void AtualizarUsuario(UsuariosModel usuario)
+    public async Task AtualizarUsuarioAsync(UsuariosModel usuario)
     {
-        var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.Id == usuario.Id);
-
+        var usuarioExistente = await _context.Usuarios.FirstOrDefaultAsync(u => u.Id == usuario.Id);
         if (usuarioExistente == null)
             throw new Exception("Usuário não encontrado.");
 
         usuarioExistente.PasswordHash = usuario.PasswordHash;
         usuarioExistente.UsuarioStatus = usuario.UsuarioStatus;
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
-    public UsuariosModel BuscaUsuarioPorId(string id)
+    public async Task<UsuariosModel> BuscaUsuarioPorIdAsync(string id)
     {
-        var usuario = _context.Usuarios.FirstOrDefault(u => u.Id == id);
-        if (usuario == null) throw new Exception("Usuario não encontado");
+        var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
+        if (usuario == null)
+            throw new Exception("Usuário não encontrado.");
 
         return usuario;
     }
 
-    public IEnumerable<UsuariosModel> BuscaUsuariosPorStatus(bool status)
+    public async Task<IEnumerable<UsuariosModel>> BuscaUsuariosPorStatusAsync(bool status)
     {
-        return _context.Usuarios.Where(u => u.UsuarioStatus == status);
+        return await Task.FromResult(_context.Usuarios.Where(u => u.UsuarioStatus == status));
     }
 
+    public async Task<bool> UsuarioExisteAsync(string id)
+    {
+        return await _context.Usuarios.AnyAsync(e => e.Id == id);
+    }
 
+    public async Task SaveChangesAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 }

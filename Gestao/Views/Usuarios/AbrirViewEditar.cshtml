@@ -1,0 +1,49 @@
+@model Gestao.Models.UsuariosModel
+
+@{
+    ViewData["Title"] = "Editar Usuário";
+}
+
+<h1>Editar Usuário</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Editar" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <!-- Id oculto -->
+            <input type="hidden" asp-for="Id" />
+
+            <!-- Status do usuário -->
+            <div class="form-group form-check mb-3">
+                <input class="form-check-input" asp-for="UsuarioStatus" />
+                <label class="form-check-label" asp-for="UsuarioStatus"></label>
+            </div>
+
+            <!-- Nome de usuário -->
+            <div class="form-group mb-3">
+                <label asp-for="UserName" class="form-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <!-- Botões -->
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
