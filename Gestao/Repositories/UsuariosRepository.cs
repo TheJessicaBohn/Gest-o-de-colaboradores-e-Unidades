@@ -14,6 +14,11 @@ public class UsuariosRepository : IUsuariosRepository
     public IEnumerable<UsuariosModel> Usuarios => _context.Usuarios;
     public IEnumerable<UsuariosModel> UsuariosAtivos => _context.Usuarios.Where(u => u.UsuarioStatus);
 
+    public async Task<List<UsuariosModel>> BuscarTodosOsUsuarios()
+    {
+        var lista = await _context.Usuarios.ToListAsync();
+        return lista;
+    }
     public async Task CriarUsuarioAsync(UsuariosModel usuario)
     {
         _context.Usuarios.Add(usuario);
@@ -26,11 +31,14 @@ public class UsuariosRepository : IUsuariosRepository
         if (usuarioExistente == null)
             throw new Exception("Usuário não encontrado.");
 
-        usuarioExistente.PasswordHash = usuario.PasswordHash;
+        usuarioExistente.UserName = usuario.UserName;
+        usuarioExistente.NormalizedUserName = usuario.NormalizedUserName;
+        usuarioExistente.Email = usuario.Email;
         usuarioExistente.UsuarioStatus = usuario.UsuarioStatus;
 
         await _context.SaveChangesAsync();
     }
+
 
     public async Task<UsuariosModel> BuscaUsuarioPorIdAsync(string id)
     {

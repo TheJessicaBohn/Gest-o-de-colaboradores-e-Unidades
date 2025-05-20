@@ -9,7 +9,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Editar" method="post">
+        <form asp-controller="Usuarios" asp-action="EditarUsuario" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             
             <!-- Id oculto -->
@@ -23,7 +23,7 @@
 
             <!-- Nome de usuário -->
             <div class="form-group mb-3">
-                <label asp-for="UserName" class="form-label"></label>
+                <label asp-for="UserName" class="form-label">Nome de Usuário</label>
                 <input asp-for="UserName" class="form-control" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
@@ -38,7 +38,7 @@
             <!-- Botões -->
             <div class="form-group mt-4">
                 <button type="submit" class="btn btn-primary">Salvar</button>
-                <a asp-action="Index" class="btn btn-secondary ms-2">Voltar</a>
+                <a asp-action="ListarUsuarios" class="btn btn-secondary ms-2">Voltar</a>
             </div>
         </form>
     </div>

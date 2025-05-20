@@ -1,6 +1,7 @@
 using Gestao.Context;
 using Gestao.Models;
 using Gestao.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gestao.Repository;
 
@@ -47,5 +48,12 @@ public class UnidadesRepository : IUnidadesRepository
             unidade.EstaUnidadeAtiva = false;
             _context.SaveChanges();
         }
+    }
+
+    public async Task<IEnumerable<UnidadesModel>> BuscaTodasUnidades()
+    {
+        return await _context.Unidades
+            .OrderBy(u => u.UnidadeCodigo)
+            .ToListAsync();
     }
 }

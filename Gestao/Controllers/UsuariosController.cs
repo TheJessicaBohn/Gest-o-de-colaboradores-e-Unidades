@@ -16,8 +16,8 @@ public class UsuariosController : Controller
     [HttpGet]
     public async Task<IActionResult> ListarUsuarios(bool status)
     {
-        var usuariosFiltrados = await _usuarioRepository.BuscaUsuariosPorStatusAsync(status);
-        return View("ListarUsuarios", usuariosFiltrados);
+        var listaDeUsuarios = await _usuarioRepository.BuscarTodosOsUsuarios();
+        return View(listaDeUsuarios);
     }
 
     [HttpGet]
@@ -44,7 +44,7 @@ public class UsuariosController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Criar([Bind("UsuarioStatus,Id,UserName,NormalizedUserName,Email")] UsuariosModel usuariosModel)
+    public async Task<IActionResult> CriarUsuario([Bind("UsuarioStatus,Id,UserName,NormalizedUserName,Email")] UsuariosModel usuariosModel)
     {
         if (ModelState.IsValid)
         {
@@ -72,7 +72,7 @@ public class UsuariosController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Editar(string id, [Bind("UsuarioStatus,Id,UserName,NormalizedUserName,Email")] UsuariosModel usuariosModel)
+    public async Task<IActionResult> EditarUsuario(string id, [Bind("UsuarioStatus,Id,UserName,NormalizedUserName,Email")] UsuariosModel usuariosModel)
     {
         if (id != usuariosModel.Id)
             return NotFound();

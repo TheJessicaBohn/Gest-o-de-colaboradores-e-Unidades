@@ -9,7 +9,7 @@
         <h1 class="display-5 text-secondary">
             <i class="bi bi-people me-2"></i> Listagem de Usuários
         </h1>
-        <a class="btn btn-warning" asp-controller="Usuarios" asp-action="AbrirFormularioDeCadastro">
+        <a class="btn btn-warning" asp-controller="Usuarios" asp-action="AbrirViewCriar">
             <i class="bi bi-plus-circle me-2"></i> Criar Novo Usuário
         </a>
     </div>
@@ -48,7 +48,7 @@
                             </td>
                             <td class="text-center text-nowrap">
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <a class="btn btn-outline-primary" asp-controller="Usuarios" asp-action="Editar" asp-route-id="@usuario.Id"
+                                    <a class="btn btn-outline-primary" asp-controller="Usuarios" asp-action="AbrirViewEditar" asp-route-id="@usuario.Id"
                                        data-bs-toggle="tooltip" title="Editar">
                                         <i class="bi bi-pencil"></i>
                                     </a>
@@ -78,7 +78,6 @@
 
 @section Scripts {
     <script>
-        // Ativa os tooltips do Bootstrap
         document.addEventListener('DOMContentLoaded', function () {
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
             tooltipTriggerList.map(function (tooltipTriggerEl) {

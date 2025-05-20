@@ -9,12 +9,12 @@
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Criar" method="post">
+        <form asp-controller="Usuarios" asp-action="CriarUsuario" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group form-check">
                 <input class="form-check-input" asp-for="UsuarioStatus" />
-                <label class="form-check-label" asp-for="UsuarioStatus"></label>
+                <label class="form-check-label" asp-for="UsuarioStatus"> Ativar Usuário?</label>
             </div>
 
             <div class="form-group">

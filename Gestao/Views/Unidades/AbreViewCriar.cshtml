@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = ViewData["Titulo"] ?? "Criar/Editar Unidade";
-    var action = ViewData["Action"] ?? "Create"; // ou "AtualizarUnidade"
+    var action = ViewData["Action"] ?? "AbreViewCriar"; // ou "AtualizarUnidade"
 }
 
 <form asp-action="@action" asp-route-id="@Model.UnidadeId" method="post" class="needs-validation" novalidate>
