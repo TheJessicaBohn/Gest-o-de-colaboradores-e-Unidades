@@ -8,6 +8,6 @@ public interface IUsuariosRepository
     void AtualizarUsuario(UsuariosModel usuario);
     IEnumerable<UsuariosModel> Usuarios { get; }
     IEnumerable<UsuariosModel> UsuariosAtivos { get; }
-    UsuariosModel BuscaUsuarioPorId(Guid usuarioId);
+    UsuariosModel BuscaUsuarioPorId(string usuarioId);
     IEnumerable<UsuariosModel> BuscaUsuariosPorStatus(bool status);
 }

@@ -1,12 +1,12 @@
 @model UsuariosModel
 
 @{
-    var isEditando = Model.UsuarioId != Guid.Empty;
+    var isEditando = Model.Id != string.Empty;
     var titulo = isEditando ? "Editar Usuário" : "Cadastrar Usuário";
     var action = isEditando ? "Editar" : "Cadastrar";
 }
 
-<form asp-action="@action" asp-route-id="@Model.UsuarioId" method="post" class="needs-validation" novalidate>
+<form asp-action="@action" asp-route-id="@Model.Id" method="post" class="needs-validation" novalidate>
     <div class="container mt-4">
         <div class="card shadow">
             <div class="card-header bg-secondary text-white">
@@ -18,17 +18,17 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label asp-for="UsuarioNome" class="form-label fw-bold"></label>
-                        <input asp-for="UsuarioNome" class="form-control" required />
-                        <span asp-validation-for="UsuarioNome" class="text-danger"></span>
+                        <label asp-for="UserName" class="form-label fw-bold"></label>
+                        <input asp-for="UserName" class="form-control" required />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label asp-for="UsuarioEmail" class="form-label fw-bold"></label>
-                        <input asp-for="UsuarioEmail" class="form-control" required />
-                        <span asp-validation-for="UsuarioEmail" class="text-danger"></span>
+                        <label asp-for="Email" class="form-label fw-bold"></label>
+                        <input asp-for="Email" class="form-control" required />
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
 

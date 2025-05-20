@@ -15,7 +15,7 @@ public class LoginRepository : ILoginRepository
 
     public async Task<UsuariosModel> BuscaUsuarioPorEmailESenha(string email, string senha)
     {
-        var usuarios = await _context.Usuarios.FirstOrDefaultAsync(u => u.UsuarioEmail == email && u.UsuarioSenha == senha && u.UsuarioStatus == true);
+        var usuarios = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email && u.PasswordHash == senha && u.UsuarioStatus == true);
 
         if (usuarios != null)
         {

@@ -24,20 +24,20 @@ public class UsuariosRepository : IUsuariosRepository
 
     public void AtualizarUsuario(UsuariosModel usuario)
     {
-        var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.UsuarioId == usuario.UsuarioId);
+        var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.Id == usuario.Id);
 
         if (usuarioExistente == null)
             throw new Exception("Usuário não encontrado.");
 
-        usuarioExistente.UsuarioSenha = usuario.UsuarioSenha;
+        usuarioExistente.PasswordHash = usuario.PasswordHash;
         usuarioExistente.UsuarioStatus = usuario.UsuarioStatus;
 
         _context.SaveChanges();
     }
 
-    public UsuariosModel BuscaUsuarioPorId(Guid id)
+    public UsuariosModel BuscaUsuarioPorId(string id)
     {
-        var usuario = _context.Usuarios.FirstOrDefault(u => u.UsuarioId == id);
+        var usuario = _context.Usuarios.FirstOrDefault(u => u.Id == id);
         if (usuario == null) throw new Exception("Usuario não encontado");
 
         return usuario;
