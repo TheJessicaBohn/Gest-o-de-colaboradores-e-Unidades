@@ -1,6 +1,8 @@
 using Gestao.Models;
 using Gestao.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gestao.Controllers;
 
@@ -11,85 +13,119 @@ public class ColaboradoresController : Controller
 
     public ColaboradoresController(IColaboradoresRepository colaboradoresRepository, IUnidadesRepository unidadesRepository)
     {
-        _colaboradorRepository = colaboradoresRepository;
-        _unidadesRepository = unidadesRepository;
+        _colaboradorRepository = colaboradoresRepository ?? throw new System.ArgumentNullException(nameof(colaboradoresRepository));
+        _unidadesRepository = unidadesRepository ?? throw new System.ArgumentNullException(nameof(unidadesRepository));
     }
 
     [HttpGet]
-    public IActionResult ListarColaboradores()
+    public async Task<IActionResult> ListarCocaboradores()
     {
-        var colaboradores = _colaboradorRepository.Colaboradores;
+        var colaboradores = await Task.FromResult(_colaboradorRepository.Colaboradores);
         return View(colaboradores);
     }
 
     [HttpGet]
-    public IActionResult Colaborador()
+    public async Task<IActionResult> Detalhes(int id)
     {
-        ViewBag.Unidades = _unidadesRepository.Unidades;
+        var colaborador = await Task.FromResult(_colaboradorRepository.BuscaColaboradorPorId(id));
+        if (colaborador == null)
+            return NotFound();
+
+        return View(colaborador);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> AbreViewCriar()
+    {
+        var unidades = await Task.FromResult(_unidadesRepository.Unidades);
+        ViewBag.Unidades = new SelectList(unidades, "UnidadeId", "UnidadeCodigo");
         return View();
     }
 
     [HttpPost]
-    public IActionResult CriarColaborador(ColaboradoresModel? colaborador)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CriarColaborador(ColaboradoresModel colaborador)
     {
+        if (ModelState.IsValid)
+        {
+            await Task.Run(() => _colaboradorRepository.CriarColaborador(colaborador));
+            return RedirectToAction(nameof(Index));
+        }
+
+        var unidades = await Task.FromResult(_unidadesRepository.Unidades);
+        ViewData["UnidadeId"] = new SelectList(unidades, "UnidadeId", "UnidadeCodigo", colaborador.UnidadeId);
+        return View(colaborador);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> AbreViewEditar(int id)
+    {
+        var colaborador = await Task.FromResult(_colaboradorRepository.BuscaColaboradorPorId(id));
         if (colaborador == null)
-        {
-            ModelState.AddModelError("", "Preencha os dados do colaborador.");
-            ViewBag.Unidades = _unidadesRepository.Unidades;
-            return View("Colaborador", new ColaboradoresModel { UnidadeId = 0 }); 
-        }
+            return NotFound();
 
-        if (ModelState.IsValid)
-        {
-            _colaboradorRepository.CriarColaborador(colaborador);
-            TempData["MensagemSucesso"] = "Colaborador criado com sucesso!";
-            return RedirectToAction("ListarColaboradores");
-        }
-
-        ViewBag.Unidades = _unidadesRepository.Unidades;
-        return View("Colaborador", colaborador);
-    }
-
-    [HttpGet]
-    public IActionResult Editar(int id)
-    {
-        var colaborador = _colaboradorRepository.BuscaColaboradorPorId(id);
-        if (colaborador == null) return NotFound();
-
-        ViewBag.Unidades = _unidadesRepository.Unidades;
+        var unidades = await Task.FromResult(_unidadesRepository.Unidades);
+        ViewData["UnidadeId"] = new SelectList(unidades, "UnidadeId", "UnidadeCodigo", colaborador.UnidadeId);
         return View(colaborador);
     }
 
     [HttpPost]
-    public IActionResult Editar(ColaboradoresModel colaborador)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AtualizarColaborador(int id, ColaboradoresModel colaborador)
     {
+        if (id != colaborador.ColaboradorId)
+            return NotFound();
+
         if (ModelState.IsValid)
         {
-            _colaboradorRepository.AtualizarColaborador(colaborador);
-            TempData["MensagemSucesso"] = "Colaborador atualizado com sucesso!";
-            return RedirectToAction("ListarColaboradores");
+            try
+            {
+                await Task.Run(() => _colaboradorRepository.AtualizarColaborador(colaborador));
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await ExisteColaborador(colaborador.ColaboradorId))
+                    return NotFound();
+                else
+                    throw;
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
-        ViewBag.Unidades = _unidadesRepository.Unidades;
+        var unidades = await Task.FromResult(_unidadesRepository.Unidades);
+        ViewData["UnidadeId"] = new SelectList(unidades, "UnidadeId", "UnidadeCodigo", colaborador.UnidadeId);
         return View(colaborador);
     }
 
-    // Deletar
     [HttpGet]
-    public IActionResult Deletar(int id)
+    public async Task<IActionResult> AbreViewDeletar(int id)
     {
-        var colaborador = _colaboradorRepository.BuscaColaboradorPorId(id);
-        if (colaborador == null) return NotFound();
+        var colaborador = await Task.FromResult(_colaboradorRepository.BuscaColaboradorPorId(id));
+        if (colaborador == null)
+            return NotFound();
 
         return View(colaborador);
     }
 
     [HttpPost]
-    public IActionResult ConfirmarDeletar(int id)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeletarColaborador(int id)
     {
-        _colaboradorRepository.RemoverColaborador(id);
-        TempData["MensagemSucesso"] = "Colaborador removido com sucesso!";
-        return RedirectToAction("ListarColaboradores");
+        await Task.Run(() => _colaboradorRepository.RemoverColaborador(id));
+        return RedirectToAction(nameof(Index));
+    }
+
+    private async Task<bool> ExisteColaborador(int id)
+    {
+        try
+        {
+            var colaborador = await Task.FromResult(_colaboradorRepository.BuscaColaboradorPorId(id));
+            return colaborador != null;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }
-

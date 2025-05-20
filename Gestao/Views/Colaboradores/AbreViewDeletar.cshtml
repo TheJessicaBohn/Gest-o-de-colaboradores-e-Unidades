@@ -1,0 +1,44 @@
+@model Gestao.Models.ColaboradoresModel
+
+@{
+    ViewData["Title"] = "Excluir Colaborador";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-danger text-white">
+            <h1 class="h4 mb-0"><i class="bi bi-exclamation-triangle-fill me-2"></i>Excluir Colaborador</h1>
+        </div>
+        <div class="card-body">
+            <p class="fs-5">Tem certeza de que deseja excluir o colaborador abaixo?</p>
+            <dl class="row">
+                <dt class="col-sm-3 fw-bold">
+                    @Html.DisplayNameFor(model => model.ColaboradorNome)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.ColaboradorNome)
+                </dd>
+
+                <dt class="col-sm-3 fw-bold">
+                    @Html.DisplayNameFor(model => model.Unidade)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Unidade.UnidadeCodigo)
+                </dd>
+            </dl>
+
+            <form asp-action="DeletarColaborador" method="post">
+                <input type="hidden" asp-for="ColaboradorId" />
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-danger me-2">
+                        <i class="bi bi-trash-fill me-1"></i> Confirmar Exclusão
+                    </button>
+                    <a asp-action="ListarCocaboradores" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left-circle me-1"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

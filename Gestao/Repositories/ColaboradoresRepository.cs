@@ -8,6 +8,7 @@ namespace Gestao.Repository;
 public class ColaboradoresRepository : IColaboradoresRepository
 {
     private readonly AppDbContext _context;
+
     public ColaboradoresRepository(AppDbContext context)
     {
         _context = context;
@@ -21,21 +22,26 @@ public class ColaboradoresRepository : IColaboradoresRepository
         _context.SaveChanges();
     }
 
-
     public void AtualizarColaborador(ColaboradoresModel colaborador)
     {
-        var colaboradorExistente = _context.Colaboradores.FirstOrDefault(c => c.ColaboradorId == colaborador.ColaboradorId);
+        var existente = _context.Colaboradores.FirstOrDefault(c => c.ColaboradorId == colaborador.ColaboradorId);
 
-        if (colaboradorExistente == null)
+        if (existente == null)
             throw new Exception("Colaborador não encontrado.");
+
+        existente.ColaboradorNome = colaborador.ColaboradorNome;
+        existente.UnidadeId = colaborador.UnidadeId;
 
         _context.SaveChanges();
     }
 
     public ColaboradoresModel BuscaColaboradorPorId(int id)
     {
-        var colaborador = _context.Colaboradores.FirstOrDefault(u => u.UnidadeId == id);
-        if (colaborador == null) throw new Exception("Colaborador não encontado");
+        var colaborador = _context.Colaboradores.Include(c => c.Unidade)
+                            .FirstOrDefault(c => c.ColaboradorId == id);
+
+        if (colaborador == null)
+            throw new Exception("Colaborador não encontrado");
 
         return colaborador;
     }
