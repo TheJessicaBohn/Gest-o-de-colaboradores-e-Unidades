@@ -9,9 +9,9 @@ Sistema de Gestão de colaboradores e Unidades em C# em MySQL
     - Classe Unidades;
 
 ## Funcionalidades:
-- [] Cadastro de usuário: Os usuários dem ser criados com um código único, login, senha e status;
-- [] Atualização de Informações de Usuários;
-- [] Listagem de Usuários;
+- [x] Cadastro de usuário: Os usuários dem ser criados com um código único, login, senha e status;
+- [x] Atualização de Informações de Usuários;
+- [x] Listagem de Usuários;
 - [] Cadastro de Colaboradores;
 - [] Atualização de Informações de Colaboradores;
 - [] Remoção de Colaboradores;
