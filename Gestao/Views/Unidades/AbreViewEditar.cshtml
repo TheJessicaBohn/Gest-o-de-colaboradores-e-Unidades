@@ -1,0 +1,44 @@
+@model Gestao.Models.UnidadesModel
+
+@{
+    ViewData["Title"] = "Editar Unidade";
+}
+
+<h1>Editar Unidade</h1>
+
+<h4>Formulário de Edição</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UnidadeId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="UnidadeCodigo" class="form-label"></label>
+                <input asp-for="UnidadeCodigo" class="form-control" />
+                <span asp-validation-for="UnidadeCodigo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="UnidadeNome" class="form-label"></label>
+                <input asp-for="UnidadeNome" class="form-control" />
+                <span asp-validation-for="UnidadeNome" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-check mb-4">
+                <input class="form-check-input" asp-for="EstaUnidadeAtiva" />
+                <label class="form-check-label" asp-for="EstaUnidadeAtiva"></label>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

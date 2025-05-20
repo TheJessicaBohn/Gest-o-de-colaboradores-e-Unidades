@@ -8,7 +8,7 @@
         <h1 class="display-4 text-secondary">
            <i class="bi bi-building-fill"></i>Listagem de Unidades
         </h1>
-        <a class="btn btn-warning" asp-action="Create">
+        <a class="btn btn-warning" asp-action="ListarUnidades">
             <i class="bi bi-plus-circle"></i> Criar nova Unidade
         </a>
     </div>
@@ -28,7 +28,7 @@
                                 <i class="bi bi-building-fill"></i>Nome da Unidade
                             </th>
                             <th scope="col" style="width: 30%">
-                                <i class="bi bi-people mr-2"></i> Colaboradores inscritos
+                               <i class="bi bi-people me-2"></i> Colaboradores inscritos
                             </th>
                             <th scope="col" style="width: 30%" class="text-center">
                                 <i class="bi bi-sliders mr-2"></i> Ações
@@ -43,9 +43,9 @@
                                     <strong>@Html.DisplayFor(modelUnidade => unidade.UnidadeNome)</strong>
                                 </td>
                                 <td class="align-middle">
-                                    <span class="badge bg-info text-dark p-2">
-                                        @Html.DisplayFor(modelUnidade => unidade.Colaboradores)
-                                    </span>
+                                <span class="badge bg-info text-dark p-2">
+                                    @unidade.Colaboradores?.Count ?? 0
+                                </span>
                                 </td>
                                 <td class="align-middle text-center">
                                     <div class="btn-group" role="group">
@@ -53,7 +53,7 @@
                                            data-bs-toggle="tooltip" title="Editar">
                                             <i class="bi bi-pencil-square"></i>
                                         </a>
-                                        <a class="btn btn-sm btn-outline-success" asp-action="Details" asp-route-id="@unidade.UnidadeId" 
+                                        <a class="btn btn-sm btn-outline-success" asp-action="Detalhes" asp-route-id="@unidade.UnidadeId" 
                                            data-bs-toggle="tooltip" title="Visualizar">
                                             <i class="bi bi-eye"></i>
                                         </a>

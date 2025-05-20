@@ -1,0 +1,36 @@
+@model Gestao.Models.UnidadesModel
+
+@{
+    ViewData["Title"] = "Detalhes da Unidade";
+}
+
+<h1>Detalhes da Unidade</h1>
+
+<hr />
+<dl class="row mb-4">
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.UnidadeCodigo)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.UnidadeCodigo)
+    </dd>
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.UnidadeNome)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.UnidadeNome)
+    </dd>
+
+    <dt class="col-sm-3">
+        @Html.DisplayNameFor(model => model.EstaUnidadeAtiva)
+    </dt>
+    <dd class="col-sm-9">
+        @Html.DisplayFor(model => model.EstaUnidadeAtiva)
+    </dd>
+</dl>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.UnidadeId" class="btn btn-primary">Editar</a>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Voltar para a Lista</a>
+</div>

@@ -1,9 +1,8 @@
-@model UnidadesModel
+@model Gestao.Models.UnidadesModel
 
 @{
-    var isEditando = Model.UnidadeId != 0; 
-    var titulo = isEditando ? "Editar Unidade" : "Cadastrar Unidade";
-    var action = isEditando ? "Editar" : "Cadastrar";
+    ViewData["Title"] = ViewData["Titulo"] ?? "Criar/Editar Unidade";
+    var action = ViewData["Action"] ?? "Create"; // ou "AtualizarUnidade"
 }
 
 <form asp-action="@action" asp-route-id="@Model.UnidadeId" method="post" class="needs-validation" novalidate>
@@ -11,11 +10,10 @@
         <div class="card shadow">
             <div class="card-header bg-secondary text-white">
                 <h1 class="h4 mb-0">
-                    <i class="bi bi-person-fill-gear me-2"></i>@titulo
+                    <i class="bi bi-person-fill-gear me-2"></i>@ViewData["Title"]
                 </h1>
             </div>
             <div class="card-body">
-
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label asp-for="UnidadeNome" class="form-label fw-bold"></label>
@@ -29,12 +27,11 @@
                         <button type="submit" class="btn btn-success me-2">
                             <i class="bi bi-check-circle-fill me-1"></i> Salvar
                         </button>
-                        <a class="btn btn-primary" asp-controller="Home" asp-action="Index">
+                        <a class="btn btn-primary" asp-controller="Unidades" asp-action="ListarUnidades">
                             <i class="bi bi-arrow-left-circle-fill me-1"></i> Voltar
                         </a>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -44,21 +41,17 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
         (function () {
-            'use strict'
-
-            var forms = document.querySelectorAll('.needs-validation')
-
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
+            'use strict';
+            var forms = document.querySelectorAll('.needs-validation');
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
     </script>
 }

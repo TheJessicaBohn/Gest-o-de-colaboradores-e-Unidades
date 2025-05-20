@@ -7,12 +7,13 @@ namespace Gestao.Repository;
 public class UnidadesRepository : IUnidadesRepository
 {
     private readonly AppDbContext _context;
+
     public UnidadesRepository(AppDbContext context)
     {
         _context = context;
     }
 
-    public IEnumerable<UnidadesModel> Unidades => _context.Unidades;
+    public IEnumerable<UnidadesModel> Unidades => _context.Unidades.ToList();
 
     public void CriarUnidade(UnidadesModel unidade)
     {
@@ -22,26 +23,29 @@ public class UnidadesRepository : IUnidadesRepository
 
     public UnidadesModel BuscaUnidadesPorId(int id)
     {
-        var unidade = _context.Unidades.FirstOrDefault(u => u.UnidadeId == id);
-        if (unidade == null) throw new Exception("Unidade não encontada");
-
-        return unidade;
+        return _context.Unidades.FirstOrDefault(u => u.UnidadeId == id);
     }
 
-     public void AtualizarUnidade(UnidadesModel unidade)
+    public void AtualizarUnidade(UnidadesModel unidade)
     {
-        var existente = BuscaUnidadesPorId(unidade.UnidadeId);
-        if (existente == null) return;
+        var existente = _context.Unidades.FirstOrDefault(u => u.UnidadeId == unidade.UnidadeId);
+        if (existente != null)
+        {
+            existente.UnidadeCodigo = unidade.UnidadeCodigo;
+            existente.UnidadeNome = unidade.UnidadeNome;
+            existente.EstaUnidadeAtiva = unidade.EstaUnidadeAtiva;
 
-        existente.UnidadeNome = unidade.UnidadeNome;
-        existente.UnidadeCodigo = unidade.UnidadeCodigo;
-        existente.EstaUnidadeAtiva = unidade.EstaUnidadeAtiva;
+            _context.SaveChanges();
+        }
     }
 
     public void InativarUnidade(int id)
     {
-        var unidade = BuscaUnidadesPorId(id);
+        var unidade = _context.Unidades.FirstOrDefault(u => u.UnidadeId == id);
         if (unidade != null)
+        {
             unidade.EstaUnidadeAtiva = false;
+            _context.SaveChanges();
+        }
     }
 }
