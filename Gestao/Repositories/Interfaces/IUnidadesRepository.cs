@@ -7,5 +7,5 @@ public interface IUnidadesRepository
     UnidadesModel BuscaUnidadesPorId(int id);
     void AtualizarUnidade(UnidadesModel unidade);
     void InativarUnidade(int id);
-    public Task<IEnumerable<UnidadesModel>> BuscaTodasUnidades();
+    public Task<IEnumerable<UnidadesModel>> BuscaTodasUnidadesAtivas();
 }

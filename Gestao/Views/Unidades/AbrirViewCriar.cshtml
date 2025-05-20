@@ -1,11 +1,10 @@
 @model Gestao.Models.UnidadesModel
 
 @{
-    ViewData["Title"] = ViewData["Titulo"] ?? "Criar/Editar Unidade";
-    var action = ViewData["Action"] ?? "AbreViewCriar"; // ou "AtualizarUnidade"
+    ViewData["Title"] = "Criar Unidade";
 }
 
-<form asp-action="@action" asp-route-id="@Model.UnidadeId" method="post" class="needs-validation" novalidate>
+<form asp-action="CriarUnidade" asp-controller="Unidades" method="post" class="needs-validation">
     <div class="container mt-4">
         <div class="card shadow">
             <div class="card-header bg-secondary text-white">
@@ -16,12 +15,29 @@
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-md-6">
+                        <label asp-for="UnidadeCodigo" class="form-label fw-bold"></label>
+                        <input asp-for="UnidadeCodigo" class="form-control" required />
+                        <span asp-validation-for="UnidadeCodigo" class="text-danger"></span>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
                         <label asp-for="UnidadeNome" class="form-label fw-bold"></label>
                         <input asp-for="UnidadeNome" class="form-control" required />
                         <span asp-validation-for="UnidadeNome" class="text-danger"></span>
                     </div>
                 </div>
-
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            <input class="form-check-input" asp-for="EstaUnidadeAtiva" />
+                            <label class="form-check-label" asp-for="EstaUnidadeAtiva">Ativar Unidade?</label>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="row">
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-success me-2">

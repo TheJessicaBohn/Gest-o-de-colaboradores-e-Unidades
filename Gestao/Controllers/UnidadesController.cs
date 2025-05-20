@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Gestao.Models;
+using System.Threading.Tasks;
 
 namespace Gestao.Controllers;
 
@@ -13,9 +14,9 @@ public class UnidadesController : Controller
     }
 
     [HttpGet]
-    public IActionResult ListarUnidades()
+    public async Task<IActionResult> ListarUnidades()
     {
-        var unidades = _unidadesRepository.Unidades;
+        var unidades = await _unidadesRepository.BuscaTodasUnidadesAtivas();
         return View(unidades);
     }
 
@@ -29,25 +30,25 @@ public class UnidadesController : Controller
         return View(unidade);
     }
 
-    public IActionResult AbreViewCriar()
+    public IActionResult AbrirViewCriar()
     {
         return View();
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Create([Bind("UnidadeId,UnidadeCodigo,UnidadeNome,EstaUnidadeAtiva")] UnidadesModel unidadesModel)
+    public IActionResult CriarUnidade([Bind("UnidadeId,UnidadeCodigo,UnidadeNome,EstaUnidadeAtiva")] UnidadesModel unidadesModel)
     {
         if (ModelState.IsValid)
         {
             _unidadesRepository.CriarUnidade(unidadesModel);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ListarUnidades));
         }
 
         return View(unidadesModel);
     }
 
-    public IActionResult AbreViewEditar(int? id)
+    public IActionResult AbrirViewEditar(int? id)
     {
         if (id == null) return NotFound();
 
@@ -59,31 +60,29 @@ public class UnidadesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult AtualizarUnidade(int id, [Bind("UnidadeId,UnidadeCodigo,UnidadeNome,EstaUnidadeAtiva")] UnidadesModel unidadesModel)
+    public IActionResult AtualizarUnidade([Bind("UnidadeId,UnidadeCodigo,UnidadeNome,EstaUnidadeAtiva")] UnidadesModel unidadesModel)
     {
-        if (id != unidadesModel.UnidadeId) return NotFound();
+        if (!ExisteUnidade(unidadesModel.UnidadeId))
+            return NotFound();
 
         if (ModelState.IsValid)
         {
             try
             {
                 _unidadesRepository.AtualizarUnidade(unidadesModel);
+                return RedirectToAction(nameof(ListarUnidades));
             }
             catch (Exception)
             {
-                if (!ExisteUnidade(unidadesModel.UnidadeId))
-                    return NotFound();
-                else
-                    throw;
+                return View(unidadesModel);
             }
-
-            return RedirectToAction(nameof(Index));
         }
 
         return View(unidadesModel);
     }
 
-    public IActionResult AbreViewDeletar(int? id)
+
+    public IActionResult AbrirViewDeletar(int? id)
     {
         if (id == null) return NotFound();
 
@@ -93,9 +92,9 @@ public class UnidadesController : Controller
         return View(unidade);
     }
 
-    [HttpPost, ActionName("Delete")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Deletar(int id)
+    public IActionResult DeletarUnidade(int id)
     {
         var unidade = _unidadesRepository.BuscaUnidadesPorId(id);
         if (unidade != null)
@@ -103,7 +102,7 @@ public class UnidadesController : Controller
             _unidadesRepository.InativarUnidade(id);
         }
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(ListarUnidades));
     }
 
     private bool ExisteUnidade(int id)

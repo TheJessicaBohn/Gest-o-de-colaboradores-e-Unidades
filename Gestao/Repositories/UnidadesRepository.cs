@@ -24,7 +24,7 @@ public class UnidadesRepository : IUnidadesRepository
 
     public UnidadesModel BuscaUnidadesPorId(int id)
     {
-        return _context.Unidades.FirstOrDefault(u => u.UnidadeId == id);
+        return _context.Unidades.First(u => u.UnidadeId == id);
     }
 
     public void AtualizarUnidade(UnidadesModel unidade)
@@ -50,10 +50,13 @@ public class UnidadesRepository : IUnidadesRepository
         }
     }
 
-    public async Task<IEnumerable<UnidadesModel>> BuscaTodasUnidades()
+
+    public async Task<IEnumerable<UnidadesModel>> BuscaTodasUnidadesAtivas()
     {
         return await _context.Unidades
-            .OrderBy(u => u.UnidadeCodigo)
+            .Where(u => u.EstaUnidadeAtiva)
+            .OrderBy(u => u.UnidadeCodigo) 
             .ToListAsync();
     }
+
 }
