@@ -12,46 +12,33 @@
             </h1>
         </div>
         <div class="card-body">
-            <form asp-controller="Colaboradores" asp-action="CriarColaborador" method="post" class="needs-validation">
-                @if (Model.ColaboradorId != 0)
-                {
-                    <input type="hidden" asp-for="ColaboradorId" />
-                }
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label asp-for="ColaboradorNome" class="form-label fw-bold"></label>
-                        <input asp-for="ColaboradorNome" class="form-control" required />
-                        <span asp-validation-for="ColaboradorNome" class="text-danger"></span>
-                        <div class="invalid-feedback">Por favor, informe o nome completo.</div>
-                    </div>
-                </div>
-
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <label asp-for="UnidadeId" class="form-label fw-bold">Unidade relacionada:</label>
-                        <select asp-for="UnidadeId" class="form-select" asp-items="@(ViewData["UnidadeId"] as SelectList)" required>
-                            <option value="">Selecione uma unidade</option>
-                        </select>
-                        <span asp-validation-for="UnidadeId" class="text-danger"></span>
-                        <div class="invalid-feedback">Por favor, selecione uma unidade.</div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <button type="submit" class="btn btn-success me-2">
-                            <i class="bi bi-check-circle-fill me-1"></i> Salvar
-                        </button>
-                        <a class="btn btn-primary" asp-controller="Colaboradores" asp-action="ListarCocaboradores">
-                            <i class="bi bi-arrow-left-circle-fill me-1"></i> Voltar
-                        </a>
-                    </div>
-                </div>
-            </form>
+            <form asp-controller="Colaboradores" asp-action="CriarColaborador" method="post" class="needs-validation" novalidate>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label asp-for="ColaboradorNome" class="form-label fw-bold"></label>
+            <input asp-for="ColaboradorNome" class="form-control" required />
+            <span asp-validation-for="ColaboradorNome" class="text-danger"></span>
         </div>
     </div>
-</div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <label asp-for="UnidadeId" class="form-label fw-bold">Unidade relacionada:</label>
+            <select asp-for="UnidadeId" class="form-select" asp-items="ViewBag.Unidades" required>
+                <option value="">Selecione uma unidade</option>
+            </select>
+            <span asp-validation-for="UnidadeId" class="text-danger"></span>
+            <div class="invalid-feedback">Por favor, selecione uma unidade.</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Criar</button>
+            <a asp-action="ListarColaboradores" class="btn btn-secondary">Voltar</a>
+        </div>
+    </div>
+</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
@@ -72,3 +59,4 @@
         })()
     </script>
 }
+

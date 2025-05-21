@@ -10,7 +10,7 @@
             <h1 class="h4 mb-0"><i class="bi bi-pencil-square me-2"></i>Editar Colaborador</h1>
         </div>
         <div class="card-body">
-            <form asp-action="AtualizarColaborador" method="post">
+            <form asp-action="AtualizarColaborador" asp-controller="Colaboradores"method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                 <input type="hidden" asp-for="ColaboradorId" />
 

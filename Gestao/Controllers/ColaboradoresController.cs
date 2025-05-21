@@ -20,7 +20,7 @@ public class ColaboradoresController : Controller
     [HttpGet]
     public async Task<IActionResult> ListarColaboradores()
     {
-        var listarColaboradores = await Task.FromResult(_colaboradorRepository.Colaboradores);
+        var listarColaboradores = await _colaboradorRepository.BuscarTodosOsColaboradores();
         return View(listarColaboradores);
     }
 
@@ -51,7 +51,7 @@ public class ColaboradoresController : Controller
     }
 
 
-    public async Task<IActionResult> CriarColaborador([Bind("Nome,UnidadeId,...")] ColaboradoresModel colaborador)
+    public async Task<IActionResult> CriarColaborador(ColaboradoresModel colaborador)
     {
         foreach (var modelStateKey in ModelState.Keys)
         {
@@ -76,7 +76,7 @@ public class ColaboradoresController : Controller
 
 
     [HttpGet]
-    public async Task<IActionResult> AbreViewEditar(int id)
+    public async Task<IActionResult> AbrirViewEditar(int id)
     {
         var colaborador = await Task.FromResult(_colaboradorRepository.BuscaColaboradorPorId(id));
         if (colaborador == null)
@@ -117,7 +117,7 @@ public class ColaboradoresController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> AbreViewDeletar(int id)
+    public async Task<IActionResult> AbrirViewDeletar(int id)
     {
         var colaborador = await Task.FromResult(_colaboradorRepository.BuscaColaboradorPorId(id));
         if (colaborador == null)

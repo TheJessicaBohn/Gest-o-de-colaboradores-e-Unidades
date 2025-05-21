@@ -14,12 +14,15 @@ public class ColaboradoresRepository : IColaboradoresRepository
         _context = context;
     }
 
-    public IEnumerable<ColaboradoresModel> Colaboradores => _context.Colaboradores.Include(u => u.Unidade);
-
-    public void CriarColaborador(ColaboradoresModel colaborador)
+    public async Task<List<ColaboradoresModel>> BuscarTodosOsColaboradores()
     {
-        _context.Colaboradores.Add(colaborador);
-        _context.SaveChanges();
+        return await _context.Colaboradores.ToListAsync();
+    }
+
+     public async Task<bool> CriarColaborador(ColaboradoresModel colaborador)
+    {
+        await _context.Colaboradores.AddAsync(colaborador);
+        return await _context.SaveChangesAsync() > 0;
     }
 
     public void AtualizarColaborador(ColaboradoresModel colaborador)
@@ -37,8 +40,7 @@ public class ColaboradoresRepository : IColaboradoresRepository
 
     public ColaboradoresModel BuscaColaboradorPorId(int id)
     {
-        var colaborador = _context.Colaboradores.Include(c => c.Unidade)
-                            .FirstOrDefault(c => c.ColaboradorId == id);
+        var colaborador = _context.Colaboradores.FirstOrDefault(c => c.ColaboradorId == id);
 
         if (colaborador == null)
             throw new Exception("Colaborador não encontrado");

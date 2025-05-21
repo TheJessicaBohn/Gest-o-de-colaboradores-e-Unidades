@@ -54,18 +54,18 @@
                                 <strong>@Html.DisplayFor(modelUsuario => colaborador.ColaboradorNome)</strong>
                             </td>
                             <td class="align-middle">
-                                @Html.DisplayFor(modelUsuario => colaborador.Unidade)
+                                @Html.DisplayFor(modelUsuario => colaborador.UnidadeId)
                             </td>
                             <td class="text-end">
                                 <div class="btn-group" role="group">
-                                    <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@colaborador.ColaboradorId">
-                                        <i class="bi bi-pencil"></i> Editar
+                                    <a class="btn btn-sm btn-outline-primary" asp-action="AbrirViewEditar" asp-route-id="@colaborador.ColaboradorId">
+                                        <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-outline-info" asp-action="Details" asp-route-id="@colaborador.ColaboradorId">
-                                        <i class="bi bi-eye"></i> Visualizar
+                                    <a class="btn btn-sm btn-outline-info" asp-action="Detalhes" asp-route-id="@colaborador.ColaboradorId">
+                                        <i class="bi bi-eye"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@colaborador.ColaboradorId">
-                                        <i class="bi bi-trash"></i> Excluir
+                                    <a class="btn btn-sm btn-outline-danger" asp-action="AbrirViewDeletar" asp-route-id="@colaborador.ColaboradorId">
+                                        <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
                             </td>

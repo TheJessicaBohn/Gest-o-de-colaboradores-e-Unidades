@@ -8,4 +8,5 @@ public interface IUnidadesRepository
     void AtualizarUnidade(UnidadesModel unidade);
     void InativarUnidade(int id);
     public Task<IEnumerable<UnidadesModel>> BuscaTodasUnidadesAtivas();
+    Task<UnidadesModel?> BuscaUnidadesPorCodigoAsync(string codigo);
 }

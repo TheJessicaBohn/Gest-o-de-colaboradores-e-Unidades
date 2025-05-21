@@ -55,8 +55,14 @@ public class UnidadesRepository : IUnidadesRepository
     {
         return await _context.Unidades
             .Where(u => u.EstaUnidadeAtiva)
-            .OrderBy(u => u.UnidadeCodigo) 
+            .OrderBy(u => u.UnidadeCodigo)
             .ToListAsync();
+    }
+    
+    public async Task<UnidadesModel?> BuscaUnidadesPorCodigoAsync(string codigo)
+    {
+        return await _context.Unidades
+            .FirstOrDefaultAsync(u => u.UnidadeCodigo == codigo);
     }
 
 }

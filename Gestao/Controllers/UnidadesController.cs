@@ -37,15 +37,24 @@ public class UnidadesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult CriarUnidade([Bind("UnidadeId,UnidadeCodigo,UnidadeNome,EstaUnidadeAtiva")] UnidadesModel unidadesModel)
+    [HttpPost]
+    public async Task<IActionResult> CriarUnidade(UnidadesModel unidade)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            _unidadesRepository.CriarUnidade(unidadesModel);
-            return RedirectToAction(nameof(ListarUnidades));
+            return View(unidade);
         }
 
-        return View(unidadesModel);
+        var jaExiste = await _unidadesRepository.BuscaUnidadesPorCodigoAsync(unidade.UnidadeCodigo);
+        if (jaExiste != null)
+        {
+            ModelState.AddModelError("UnidadeCodigo", "Já existe uma unidade com esse código.");
+            return View(unidade);
+        }
+
+        _unidadesRepository.CriarUnidade(unidade);
+
+        return RedirectToAction("ListarUnidades");
     }
 
     public IActionResult AbrirViewEditar(int? id)

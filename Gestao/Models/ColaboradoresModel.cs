@@ -13,7 +13,7 @@ public class ColaboradoresModel
     [Display(Name = "Nome do Colaborador")]
     [StringLength(100, ErrorMessage = "O tamanho máximo é 100 caracteres")]
     public string ColaboradorNome { get; set; } = string.Empty;
-    public virtual UnidadesModel Unidade { get; set; } = new UnidadesModel();
+    public virtual string UnidadeCodigo { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "O colaborador deve ser vinculado à uma unidade!")]
     [ForeignKey("UnidadeId")]
