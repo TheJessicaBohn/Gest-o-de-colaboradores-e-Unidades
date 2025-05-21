@@ -18,10 +18,10 @@ public class ColaboradoresController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> ListarCocaboradores()
+    public async Task<IActionResult> ListarColaboradores()
     {
-        var colaboradores = await Task.FromResult(_colaboradorRepository.Colaboradores);
-        return View(colaboradores);
+        var listarColaboradores = await Task.FromResult(_colaboradorRepository.Colaboradores);
+        return View(listarColaboradores);
     }
 
     [HttpGet]
@@ -35,27 +35,45 @@ public class ColaboradoresController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> AbreViewCriar()
+  
+    public async Task<IActionResult> AbrirViewCriar()
     {
-        var unidades = await Task.FromResult(_unidadesRepository.Unidades);
+        var unidades = await _unidadesRepository.BuscaTodasUnidadesAtivas();
+
+        if (unidades == null || !unidades.Any())
+        {
+            TempData["MensagemErro"] = "Você precisa cadastrar pelo menos uma unidade antes.";
+            return RedirectToAction("ListarColaboradores");
+        }
+
         ViewBag.Unidades = new SelectList(unidades, "UnidadeId", "UnidadeCodigo");
         return View();
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CriarColaborador(ColaboradoresModel colaborador)
+
+    public async Task<IActionResult> CriarColaborador([Bind("Nome,UnidadeId,...")] ColaboradoresModel colaborador)
     {
-        if (ModelState.IsValid)
+        foreach (var modelStateKey in ModelState.Keys)
         {
-            await Task.Run(() => _colaboradorRepository.CriarColaborador(colaborador));
-            return RedirectToAction(nameof(Index));
+            var value = ModelState[modelStateKey];
+            foreach (var error in value.Errors)
+            {
+                Console.WriteLine($"Erro em {modelStateKey}: {error.ErrorMessage}");
+            }
         }
 
-        var unidades = await Task.FromResult(_unidadesRepository.Unidades);
-        ViewData["UnidadeId"] = new SelectList(unidades, "UnidadeId", "UnidadeCodigo", colaborador.UnidadeId);
-        return View(colaborador);
+        if (ModelState.IsValid)
+        {
+            await _colaboradorRepository.CriarColaborador(colaborador);
+            return RedirectToAction(nameof(ListarColaboradores));
+        }
+
+        var unidades = _unidadesRepository.Unidades;
+        ViewData["Unidades"] = new SelectList(unidades, "UnidadeId", "UnidadeCodigo");
+
+        return View("AbrirViewCriar",colaborador);
     }
+
 
     [HttpGet]
     public async Task<IActionResult> AbreViewEditar(int id)
