@@ -3,16 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using Gestao.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Gestao.ViewModels;
+using Gestao.Models;
 
 namespace Gestao.Controllers;
 
 [Route("api/[controller]")]
 public class AccountController : Controller
 {
-    private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<UsuariosModel> _signInManager;
+    private readonly UserManager<UsuariosModel> _userManager;
 
-    public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+    public AccountController(SignInManager<UsuariosModel> signInManager, UserManager<UsuariosModel> userManager)
     {
         _signInManager = signInManager;
         _userManager = userManager;
@@ -31,28 +32,32 @@ public class AccountController : Controller
 
 
     [HttpPost]
-    public async Task<IActionResult> Login(LoginViewModel model, [FromServices] ILoginRepository loginRepo, [FromServices] TokenService tokenService)
+    public async Task<IActionResult> Login(LoginViewModel model, [FromServices] TokenService tokenService)
     {
         var user = await _userManager.FindByEmailAsync(model.NomeUsuario);
+
         if (user != null)
         {
             var resultado = await _signInManager.PasswordSignInAsync(user, model.Senha, false, false);
             if (resultado.Succeeded)
             {
-                if (string.IsNullOrEmpty(model.RetornaURL))
+                if (user != null)
                 {
-                    return RedirectToAction("Index", "Home");
-                }
+                    var token = tokenService.GenerateToken(user.Email);
+                    HttpContext.Session.SetString("Token", token);
 
-                var token = tokenService.GenerateToken(user.UserName);
-                HttpContext.Session.SetString("Token", token);
-                return RedirectToAction(model.RetornaURL);
+                    if (string.IsNullOrEmpty(model.RetornaURL))
+                        return RedirectToAction("Index", "Home");
+
+                    return RedirectToAction(model.RetornaURL);
+                }
             }
-    
         }
 
-        ModelState.AddModelError("", "Falha ao realizar o login");
-        return View(model);
-    }
+            ModelState.AddModelError("", "Falha ao realizar o login");
+            return View(model);
+
+        }
+
 }
 
