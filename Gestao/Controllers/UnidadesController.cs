@@ -36,26 +36,25 @@ public class UnidadesController : Controller
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public async Task<IActionResult> CriarUnidade(UnidadesModel unidade)
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> CriarUnidade(UnidadesModel unidade)
+{
+    if (!ModelState.IsValid)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(unidade);
-        }
-
-        var jaExiste = await _unidadesRepository.BuscaUnidadesPorCodigoAsync(unidade.UnidadeCodigo);
-        if (jaExiste != null)
-        {
-            ModelState.AddModelError("UnidadeCodigo", "Já existe uma unidade com esse código.");
-            return View(unidade);
-        }
-
-        _unidadesRepository.CriarUnidade(unidade);
-
-        return RedirectToAction("ListarUnidades");
+        return View("AbrirViewCriar", unidade); // 👈 troca aqui
     }
+
+    var jaExiste = await _unidadesRepository.BuscaUnidadesPorCodigoAsync(unidade.UnidadeCodigo);
+    if (jaExiste != null)
+    {
+        ModelState.AddModelError("UnidadeCodigo", "Já existe uma unidade com esse código.");
+        return View("AbrirViewCriar", unidade); // 👈 e aqui também
+    }
+
+    _unidadesRepository.CriarUnidade(unidade);
+
+    return RedirectToAction("ListarUnidades");
+}
 
     public IActionResult AbrirViewEditar(int? id)
     {

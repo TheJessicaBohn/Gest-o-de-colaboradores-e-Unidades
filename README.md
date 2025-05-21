@@ -2,8 +2,9 @@
 Sistema de Gestão de colaboradores e Unidades em C# em Postgres
 
 # Para rodar o projeto
-- docker-compose up --build
-- dotnet run
+- ```docker-compose up --build```
+- ```dotnet run```
+- Caso ao dar o ```dotnet run``` apareça algum erro de migration rode o seguinte comando: ```dotnet ef database update``` , assim as migrations que podem não ter sido colocas no seu banco pela primeira vez com o ```donet run```, é forçadamente aplicada pelo ```dotnet ef database update ``` 
 - Obs: um em cada terminal
 
 ## Modelo:
@@ -20,7 +21,7 @@ Sistema de Gestão de colaboradores e Unidades em C# em Postgres
 - [x] Cadastro de Colaboradores;
 - [] Atualização de Informações de Colaboradores;
 - [] Remoção de Colaboradores;
-- [] Listagem de Colaboradores;
+- [x] Listagem de Colaboradores;
 - [x] Cadastro de Unidades;
 - [x] Atualização de Informações de Unidades;
 - [x] Listagem de Unidades;
