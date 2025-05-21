@@ -1,5 +1,10 @@
 # Gestao-de-colaboradores-e-Unidades
-Sistema de Gestão de colaboradores e Unidades em C# em MySQL
+Sistema de Gestão de colaboradores e Unidades em C# em Postgres
+
+# Para rodar o projeto
+- docker-compose up --build
+- dotnet run
+- Obs: um em cada terminal
 
 ## Modelo:
 - MVC
@@ -12,13 +17,13 @@ Sistema de Gestão de colaboradores e Unidades em C# em MySQL
 - [x] Cadastro de usuário: Os usuários dem ser criados com um código único, login, senha e status;
 - [x] Atualização de Informações de Usuários;
 - [x] Listagem de Usuários;
-- [] Cadastro de Colaboradores;
+- [x] Cadastro de Colaboradores;
 - [] Atualização de Informações de Colaboradores;
 - [] Remoção de Colaboradores;
 - [] Listagem de Colaboradores;
-- [] Cadastro de Unidades;
-- [] Atualização de Informações de Unidades;
-- [] Listagem de Unidades;
+- [x] Cadastro de Unidades;
+- [x] Atualização de Informações de Unidades;
+- [x] Listagem de Unidades;
 
 ## Lembretes:
 - ao gerar o banco pela primeira vez, abra o banco e entre com o usuario host;
