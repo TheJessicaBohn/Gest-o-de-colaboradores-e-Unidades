@@ -58,13 +58,13 @@
                             </td>
                             <td class="text-end">
                                 <div class="btn-group" role="group">
-                                    <a class="btn btn-sm btn-outline-primary" asp-action="AbrirViewEditar" asp-route-id="@colaborador.ColaboradorId">
+                                    <a class="btn btn-sm btn-outline-primary" asp-action="AbrirViewEditar" asp-controller="Colaboradores" asp-route-id="@colaborador.ColaboradorId">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-outline-info" asp-action="Detalhes" asp-route-id="@colaborador.ColaboradorId">
+                                    <a class="btn btn-sm btn-outline-info" asp-action="Detalhes" asp-controller="Colaboradores" asp-route-id="@colaborador.ColaboradorId">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a class="btn btn-sm btn-outline-danger" asp-action="AbrirViewDeletar" asp-route-id="@colaborador.ColaboradorId">
+                                    <a class="btn btn-sm btn-outline-danger" asp-action="AbrirViewDeletar" asp-controller="Colaboradores" asp-route-id="@colaborador.ColaboradorId">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </div>

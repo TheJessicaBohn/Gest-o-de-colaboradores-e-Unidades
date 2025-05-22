@@ -48,13 +48,13 @@ public class ColaboradoresRepository : IColaboradoresRepository
         return colaborador;
     }
 
-    public void RemoverColaborador(int id)
+    public async Task RemoverColaborador(int id)
     {
-        var colaborador = _context.Colaboradores.FirstOrDefault(c => c.ColaboradorId == id);
+         var colaborador = await _context.Colaboradores.FindAsync(id);
         if (colaborador != null)
         {
             _context.Colaboradores.Remove(colaborador);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

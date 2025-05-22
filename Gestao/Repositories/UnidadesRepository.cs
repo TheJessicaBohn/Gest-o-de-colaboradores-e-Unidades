@@ -24,7 +24,7 @@ public class UnidadesRepository : IUnidadesRepository
 
     public UnidadesModel BuscaUnidadesPorId(int id)
     {
-        return _context.Unidades.First(u => u.UnidadeId == id);
+        return _context.Unidades.FirstOrDefault(u => u.UnidadeId == id);
     }
 
     public void AtualizarUnidade(UnidadesModel unidade)

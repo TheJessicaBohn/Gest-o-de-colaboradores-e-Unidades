@@ -8,5 +8,5 @@ public interface IColaboradoresRepository
     Task<bool> CriarColaborador(ColaboradoresModel colaborador);
     void AtualizarColaborador(ColaboradoresModel colaborador);
     ColaboradoresModel BuscaColaboradorPorId(int colaboradoesId);
-    void RemoverColaborador(int id);
+    Task RemoverColaborador(int id);
 }

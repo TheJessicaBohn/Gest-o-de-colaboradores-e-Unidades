@@ -89,9 +89,9 @@ public class ColaboradoresController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AtualizarColaborador(int id, ColaboradoresModel colaborador)
+    public async Task<IActionResult> AtualizarColaborador(ColaboradoresModel colaborador)
     {
-        if (id != colaborador.ColaboradorId)
+        if (colaborador.ColaboradorId!= colaborador.ColaboradorId)
             return NotFound();
 
         if (ModelState.IsValid)
@@ -108,7 +108,7 @@ public class ColaboradoresController : Controller
                     throw;
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ListarColaboradores));
         }
 
         var unidades = await Task.FromResult(_unidadesRepository.Unidades);
@@ -130,8 +130,14 @@ public class ColaboradoresController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeletarColaborador(int id)
     {
-        await Task.Run(() => _colaboradorRepository.RemoverColaborador(id));
-        return RedirectToAction(nameof(Index));
+        var colaborador = _colaboradorRepository.BuscaColaboradorPorId(id);
+        if (colaborador == null)
+        {
+            return NotFound();
+        }
+
+        await _colaboradorRepository.RemoverColaborador(id);
+        return RedirectToAction(nameof(ListarColaboradores));
     }
 
     private async Task<bool> ExisteColaborador(int id)
