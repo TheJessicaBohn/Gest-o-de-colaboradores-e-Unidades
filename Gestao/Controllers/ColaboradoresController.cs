@@ -128,15 +128,15 @@ public class ColaboradoresController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeletarColaborador(int id)
+    public async Task<IActionResult> DeletarColaborador(int colaboradorId)
     {
-        var colaborador = _colaboradorRepository.BuscaColaboradorPorId(id);
+        var colaborador = _colaboradorRepository.BuscaColaboradorPorId(colaboradorId);
         if (colaborador == null)
         {
             return NotFound();
         }
 
-        await _colaboradorRepository.RemoverColaborador(id);
+        await _colaboradorRepository.RemoverColaborador(colaboradorId);
         return RedirectToAction(nameof(ListarColaboradores));
     }
 

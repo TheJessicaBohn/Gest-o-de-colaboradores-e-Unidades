@@ -25,6 +25,7 @@
             </dl>
 
             <form asp-action="DeletarColaborador" method="post">
+                @Html.AntiForgeryToken()
                 <input type="hidden" asp-for="ColaboradorId" />
 
                 <div class="mt-4">
