@@ -19,8 +19,8 @@ Sistema de Gestão de colaboradores e Unidades em C# em Postgres
 - [x] Atualização de Informações de Usuários;
 - [x] Listagem de Usuários;
 - [x] Cadastro de Colaboradores;
-- [] Atualização de Informações de Colaboradores;
-- [] Remoção de Colaboradores;
+- [x] Atualização de Informações de Colaboradores;
+- [x] Remoção de Colaboradores;
 - [x] Listagem de Colaboradores;
 - [x] Cadastro de Unidades;
 - [x] Atualização de Informações de Unidades;
